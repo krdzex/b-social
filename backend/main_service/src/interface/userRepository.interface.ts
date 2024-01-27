@@ -1,5 +1,6 @@
+import { CreateUserRequest } from "../dto/user.dto";
 import { User } from "../modals/user.modal";
 
 export interface IUserRepository {
-  create(): Promise<User>;
+  create(data: CreateUserRequest): Promise<User>;
 }
