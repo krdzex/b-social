@@ -3,7 +3,7 @@ import userRouter from "./api/user.routes";
 import errorHandler from "./utils/errorHandler";
 import jsonResponseMiddleware from "./middlewares/json-response.middleware";
 import passport from 'passport';
-import passportStrategy from './passport.config';
+import passportStrategy from './config/passport.config';
 import cookieParser from 'cookie-parser';
 
 const app = express();
