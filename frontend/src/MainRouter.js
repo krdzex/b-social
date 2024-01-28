@@ -4,6 +4,7 @@ import Signup from "./user/Signup";
 import Home from "./core/Home";
 import Menu from "./core/Menu";
 import Signin from "./user/Signin";
+import Profile from "./user/Profile";
 
 class MainRouter extends Component {
   render() {
@@ -14,6 +15,7 @@ class MainRouter extends Component {
           <Route path="/" element={<Home />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/signin" element={<Signin />} />
+          <Route path="/user/:userId" element={<Profile />} />
         </Routes>
       </BrowserRouter>
     );
