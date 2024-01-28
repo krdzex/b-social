@@ -10,13 +10,11 @@ router.post(
   "/register",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-
       const data = await userService.createUser(req.body);
-      
-      return res.status(201).json(data);
+
+      return res.jsonSuccess({ data: { aa: "aaa" } });
     } catch (error) {
-      const err = error as Error;
-      return res.status(500).json(err.message);
+      next(error);
     }
   }
 );
