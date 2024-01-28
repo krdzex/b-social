@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import {
-    Button,
+  Button,
   Card,
   CardActions,
   CardContent,
@@ -15,6 +15,7 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
+import { create } from "./api-user";
 
 export default function Signup() {
   const theme = useTheme();
@@ -46,15 +47,35 @@ export default function Signup() {
   };
 
   const [values, setValues] = useState({
-    name: "",
-    password: "",
+    firstName: "",
+    lastName: "",
+    username: "",
     email: "",
+    password: "",
+    confirmPassword: "",
     open: false,
     error: "",
   });
 
   const handleChange = (name) => (event) => {
     setValues({ ...values, [name]: event.target.value });
+  };
+
+  const clickSubmit = () => {
+    const user = {
+      firstName: values.firstName || undefined,
+      lastName: values.lastName || undefined,
+      username: values.username || undefined,
+      email: values.email || undefined,
+      password: values.password || undefined,
+      confirmPassword: values.confirmPassword || undefined,
+    };
+
+    create(user).then((data) => {
+      console.log(data);
+      if (data.error) setValues({ ...values, error: data.error });
+      else setValues({ ...values, error: "", open: true });
+    });
   };
 
   return (
@@ -65,11 +86,29 @@ export default function Signup() {
             Sign Up
           </Typography>
           <TextField
-            id="name"
-            label="Name"
+            id="firstName"
+            label="First Name"
             sx={classes.textField}
-            value={values.name}
-            onChange={handleChange("name")}
+            value={values.firstName}
+            onChange={handleChange("firstName")}
+            margin="normal"
+          />
+          <br />
+          <TextField
+            id="lastName"
+            label="Last Name"
+            sx={classes.textField}
+            value={values.lastName}
+            onChange={handleChange("lastName")}
+            margin="normal"
+          />
+          <br />
+          <TextField
+            id="username"
+            label="Username"
+            sx={classes.textField}
+            value={values.username}
+            onChange={handleChange("username")}
             margin="normal"
           />
           <br />
@@ -93,6 +132,16 @@ export default function Signup() {
             margin="normal"
           />
           <br />
+          <TextField
+            id="password"
+            type="password"
+            label="Confirm password"
+            sx={classes.textField}
+            value={values.confirmPassword}
+            onChange={handleChange("confirmPassword")}
+            margin="normal"
+          />
+          <br />
           {values.error && (
             <Typography component="p" color="error">
               <Icon color="error" sx={classes.error}>
@@ -103,7 +152,12 @@ export default function Signup() {
           )}
         </CardContent>
         <CardActions>
-          <Button color="primary" variant="contained" sx={classes.submit}>
+          <Button
+            color="primary"
+            onClick={clickSubmit}
+            variant="contained"
+            sx={classes.submit}
+          >
             Submit
           </Button>
         </CardActions>

@@ -2,14 +2,22 @@ import express from "express";
 import userRouter from "./api/user.routes";
 import errorHandler from "./utils/errorHandler";
 import jsonResponseMiddleware from "./middlewares/json-response.middleware";
-import passport from 'passport';
-import passportStrategy from './config/passport.config';
-import cookieParser from 'cookie-parser';
+import passport from "passport";
+import passportStrategy from "./config/passport.config";
+import cookieParser from "cookie-parser";
+import cors from "cors";
 
 const app = express();
 
 passportStrategy(passport);
 app.use(passport.initialize());
+
+const corsConfig = {
+    credentials: true,
+    origin: true,
+};
+
+app.use(cors(corsConfig));
 
 app.use(express.json());
 

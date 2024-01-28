@@ -20,7 +20,7 @@ router.post(
       if (errors)
         return res.jsonError({
           msg: "Validation Error",
-          data: errors
+          data: errors,
         });
 
       await userService.createUser(input);
@@ -36,9 +36,18 @@ router.post(
   "/signin",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const token = await userService.signIn(req.body);
+      const result = await userService.signIn(req.body);
 
-      return res.jsonSuccess({ data: token });
+      return res.jsonSuccess({
+        data: {
+          token: result.token,
+          user: {
+            id: result.user.id,
+            username: result.user.username,
+            email: result.user.email,
+          },
+        },
+      });
     } catch (error) {
       next(error);
     }

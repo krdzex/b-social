@@ -7,6 +7,7 @@ import {
 import { IUserRepository } from "../interface/userRepository.interface";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { User } from "../modals/user.modal";
 
 export class UserService {
   private _userRepository: IUserRepository;
@@ -37,7 +38,7 @@ export class UserService {
     return createUserResult;
   }
 
-  async signIn(data: SignInRequest): Promise<string> {
+  async signIn(data: SignInRequest): Promise<{token: string, user: User}> {
     const user = await this._userRepository.findByEmail(data.email);
     if (!user) {
       throw HttpError.BadRequest("User not found");
@@ -60,6 +61,6 @@ export class UserService {
       }
     );
 
-    return token;
+    return {token, user};
   }
 }
