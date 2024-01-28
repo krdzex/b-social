@@ -2,9 +2,11 @@ import HttpError from "../utils/HttpError";
 import {
   CreateUserRequest,
   CreateUserWithHashedPasswordDTO,
+  SignInRequest,
 } from "../dto/user.dto";
 import { IUserRepository } from "../interface/userRepository.interface";
-import bcryptjs from "bcryptjs";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 export class UserService {
   private _userRepository: IUserRepository;
@@ -20,8 +22,7 @@ export class UserService {
       throw HttpError.BadRequest("User already exist");
     }
 
-    const salt = await bcryptjs.genSalt(10);
-    const hashedPassword = await bcryptjs.hash(data.password, salt);
+    const hashedPassword = await bcrypt.hash(data.password, 10);
 
     const createUserDto = new CreateUserWithHashedPasswordDTO({
       firstName: data.firstName,
@@ -34,5 +35,31 @@ export class UserService {
     var createUserResult = await this._userRepository.create(createUserDto);
 
     return createUserResult;
+  }
+
+  async signIn(data: SignInRequest): Promise<string> {
+    const user = await this._userRepository.findByEmail(data.email);
+    if (!user) {
+      throw HttpError.BadRequest("User not found");
+    }
+
+    const passwordMatch = await bcrypt.compare(
+      data.password,
+      user.password.trim()
+    );
+
+    if (!passwordMatch) {
+      throw HttpError.BadRequest("Invalid password");
+    }
+
+    const token = jwt.sign(
+      { user: {username: user.username} },
+      process.env.JWT_SECRET!,
+      {
+        expiresIn: "1h",
+      }
+    );
+
+    return token;
   }
 }

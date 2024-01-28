@@ -10,9 +10,22 @@ router.post(
   "/register",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const data = await userService.createUser(req.body);
+      await userService.createUser(req.body);
 
-      return res.jsonSuccess({ data: { aa: "aaa" } });
+      return res.jsonSuccess({ status: 201 });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+router.post(
+  "/signin",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const token = await userService.signIn(req.body);
+
+      return res.jsonSuccess({ data: token });
     } catch (error) {
       next(error);
     }

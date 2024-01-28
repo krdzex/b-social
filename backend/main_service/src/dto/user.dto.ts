@@ -7,6 +7,11 @@ export class CreateUserRequest {
   confirmPassword: string;
 }
 
+export class SignInRequest {
+  email: string;
+  password: string;
+}
+
 export class CreateUserWithHashedPasswordDTO {
   firstName: string;
   lastName: string;
