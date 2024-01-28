@@ -1,14 +1,37 @@
-import { CreateUserRequest } from "../dto/user.dto";
+import {
+  CreateUserRequest,
+  CreateUserWithHashedPasswordDTO,
+} from "../dto/user.dto";
 import { IUserRepository } from "../interface/userRepository.interface";
+import bcryptjs from "bcryptjs";
 
 export class UserService {
-  private _repository: IUserRepository;
+  private _userRepository: IUserRepository;
 
-  constructor(repository: IUserRepository) {
-    this._repository = repository;
+  constructor(userRepository: IUserRepository) {
+    this._userRepository = userRepository;
   }
 
   async createUser(data: CreateUserRequest) {
-    return data;
+    const user = await this._userRepository.findByEmail(data.email);
+
+    if (user) {
+      throw new Error("User already exist");
+    }
+
+    const salt = await bcryptjs.genSalt(10);
+    const hashedPassword = await bcryptjs.hash(data.password, salt);
+
+    const createUserDto = new CreateUserWithHashedPasswordDTO({
+      firstName: data.firstName,
+      lastName: data.lastName,
+      username: data.username,
+      email: data.email,
+      hashedPassword: hashedPassword,
+    });
+
+    var createUserResult = await this._userRepository.create(createUserDto);
+
+    return createUserResult;
   }
 }

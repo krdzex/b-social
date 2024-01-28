@@ -9,7 +9,15 @@ export const userService = new UserService(new UserRepository());
 router.post(
   "/register",
   async (req: Request, res: Response, next: NextFunction) => {
-    return res.status(200).json({})
+    try {
+
+      const data = await userService.createUser(req.body);
+      
+      return res.status(201).json(data);
+    } catch (error) {
+      const err = error as Error;
+      return res.status(500).json(err.message);
+    }
   }
 );
 
