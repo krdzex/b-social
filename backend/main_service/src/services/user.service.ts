@@ -1,3 +1,4 @@
+import HttpError from "../utils/HttpError";
 import {
   CreateUserRequest,
   CreateUserWithHashedPasswordDTO,
@@ -16,7 +17,7 @@ export class UserService {
     const user = await this._userRepository.findByEmail(data.email);
 
     if (user) {
-      throw new Error("User already exist");
+      throw HttpError.BadRequest("User already exist");
     }
 
     const salt = await bcryptjs.genSalt(10);
