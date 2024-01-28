@@ -1,0 +1,15 @@
+version: '3'
+name: bSocial
+
+services:
+  postgres:
+    image: postgres
+    restart: always
+    ports:
+      - "54320:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: bSocial
+    volumes:
+      - ./db-data/postgres/:/var/lib/postgres/data
