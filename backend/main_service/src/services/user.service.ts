@@ -38,7 +38,7 @@ export class UserService {
     return createUserResult;
   }
 
-  async signIn(data: SignInRequest): Promise<{token: string, user: User}> {
+  async signIn(data: SignInRequest): Promise<{ token: string; user: User }> {
     const user = await this._userRepository.findByEmail(data.email);
     if (!user) {
       throw HttpError.BadRequest("User not found");
@@ -53,17 +53,12 @@ export class UserService {
       throw HttpError.BadRequest("Invalid password");
     }
 
-    const token = jwt.sign(
-      { user: {username: user.username} },
-      process.env.JWT_SECRET!,
-      {
-        expiresIn: "1h",
-      }
-    );
+    const token = jwt.sign({ user: { id: user.id } }, process.env.JWT_SECRET!, {
+      expiresIn: "1h",
+    });
 
-    return {token, user};
+    return { token, user };
   }
-
 
   async getUserById(id: number) {
     const user = await this._userRepository.findById(id);

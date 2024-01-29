@@ -13,4 +13,10 @@ declare module "express-serve-static-core" {
       status?: number;
     }) => Response;
   }
+
+  interface Request {
+    user: {
+      id: number;
+    };
+  }
 }

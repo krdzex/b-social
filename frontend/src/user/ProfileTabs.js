@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from "prop-types"
 import authHelper from '../auth/auth-helper';
 import { AppBar, Box, Tab, Tabs } from '@mui/material';
+import NewsFeed from '../post/NewsFeed';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -52,6 +53,18 @@ export default function ProfileTabs(props) {
                     {/* {authHelper.isAuthenticated().user.id === props.values.user.id && (<Tab label="To follow" />)} */}
                 </Tabs>
             </AppBar>
+            <TabPanel value={value} index={0}>
+                <NewsFeed />
+            </TabPanel>
+            {/* <TabPanel value={value} index={1}>
+                <FollowGrid people={props.values.user.following} />
+            </TabPanel>
+            <TabPanel value={value} index={2} >
+                <FollowGrid people={props.values.user.followers} />
+            </TabPanel>
+            {authHelper.isAuthenticated().user._id === props.values.user._id && (<TabPanel value={value} index={3} >
+                <FindPeople />
+            </TabPanel>)} */}
         </Box>
     );
 }
