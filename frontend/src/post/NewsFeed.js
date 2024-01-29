@@ -35,13 +35,17 @@ const NewsFeed = () => {
     };
   }, [userId]);
 
+  const removePost = (postId) => {
+    setPosts(posts.filter((post) => post.id !== postId));
+  };
+
   return (
     <Card>
       <Typography type="title">NewsFeed</Typography>
       <Divider />
       <NewPost addUpdate={addPost} />
       <Divider />
-      <PostList posts={posts} />
+      <PostList posts={posts} removeUpdate={removePost} />
     </Card>
   );
 };

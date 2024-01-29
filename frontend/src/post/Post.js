@@ -13,6 +13,7 @@ import Comments from "./Comments";
 import { useEffect, useState } from "react";
 import { getComments } from "./api-post";
 import authHelper from "../auth/auth-helper";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const Post = (props) => {
   const jwt = authHelper.isAuthenticated();
@@ -39,10 +40,30 @@ const Post = (props) => {
     setComments(updatedComments);
   };
 
+  const deletePost = () => {
+    // remove({ postId: props.post._id }, { t: jwt.token })
+    //     .then((data) => {
+    //         if (data.error) {
+    //             console.log(data.error)
+    //         } else {
+    //             props.onRemove(props.post)
+    //         }
+    //     })
+
+    props.onRemove(props.post.id)
+  };
+
   return (
     <Card>
       <CardHeader
         avatar={<Avatar />}
+        action={
+          props.post.user.id === authHelper.isAuthenticated().user.id && (
+            <IconButton onClick={deletePost}>
+              <DeleteIcon />
+            </IconButton>
+          )
+        }
         title={
           <>
             <Link to={"/user/" + props.post.user.id}>
