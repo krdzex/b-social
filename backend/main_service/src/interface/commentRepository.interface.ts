@@ -6,7 +6,9 @@ export interface ICommentRepository {
     data: CreateCommentRequest,
     postId: number,
     userId: number
-  ): Promise<Comment>;
+  ): Promise<CommentForPostDto>;
 
   getCommentsForPost(postId: number): Promise<CommentForPostDto[]>;
+  deleteComment(commentId: number): Promise<void>;
+  getById(commentId: number): Promise<CommentForPostDto | null>;
 }

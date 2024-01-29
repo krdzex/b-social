@@ -53,4 +53,18 @@ export class CommentService {
 
     return comments;
   }
+
+  async deleteComment(commentId: number, userId: number) {
+    var comment = await this._commentRepository.getById(commentId);
+
+    if (!comment) {
+      throw HttpError.NotFound("Post not found");
+    }
+
+    if (comment.author.id !== userId) {
+      throw HttpError.BadRequest("You are not author of comment");
+    }
+
+    await this._commentRepository.deleteComment(commentId);
+  }
 }

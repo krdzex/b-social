@@ -64,4 +64,21 @@ router.get(
   }
 );
 
+router.delete(
+  "/comments/:commentId",
+  authGuard,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const commentId = Number(req.params.commentId);
+      const userId = req.user.id;
+
+      await commentService.deleteComment(commentId, userId);
+
+      return res.jsonSuccess({ status: 201 });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 export default router;
