@@ -57,4 +57,21 @@ router.get(
   }
 );
 
+router.delete(
+  "/post/:postId",
+  authGuard,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const postId = Number(req.params.postId);
+      const userId = req.user.id;
+
+      await postService.deletePost(postId, userId);
+
+      return res.jsonSuccess({ status: 201 });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 export default router;

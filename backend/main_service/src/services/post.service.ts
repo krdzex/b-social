@@ -39,4 +39,18 @@ export class PostService {
 
     return posts;
   }
+
+  async deletePost(postId: number, userId: number) {
+    var post = await this._postRepository.getById(postId);
+
+    if (!post) {
+      throw HttpError.NotFound("Post not found");
+    }
+
+    if (post.userId !== userId) {
+      throw HttpError.BadRequest("You are not author of this post");
+    }
+
+    await this._postRepository.delete(postId);
+  }
 }

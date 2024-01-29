@@ -9,6 +9,14 @@ export class PostRepository implements IPostRepository {
   constructor() {
     this._prisma = new PrismaClient();
   }
+  async delete(postId: number): Promise<void> {
+    await this._prisma.post.delete({
+      where: {
+        id: postId,
+      },
+    });
+  }
+
   async getById(postId: number): Promise<Post | null> {
     return await this._prisma.post.findFirst({
       where: {
@@ -38,9 +46,9 @@ export class PostRepository implements IPostRepository {
       where: {
         userId,
       },
-      orderBy:{
-        createdAt: "desc"
-      }
+      orderBy: {
+        createdAt: "desc",
+      },
     });
   }
 
