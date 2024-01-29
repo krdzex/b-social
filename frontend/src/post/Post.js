@@ -9,9 +9,33 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import CommentIcon from "@mui/icons-material/Comment";
+import Comments from "./Comments";
+import { useState } from "react";
 
 const Post = (props) => {
-    console.log(props)
+  console.log(props);
+  const [viewComments, setViewComments] = useState(false);
+  const [comments, setComments] = useState([
+    {
+      _id: "comment1",
+      text: "This is the first comment",
+      postedBy: {
+        _id: "user1",
+        name: "John Doe",
+      },
+      created: new Date("2024-01-29T12:00:00Z"),
+    },
+    {
+      _id: "comment2",
+      text: "This is the second comment",
+      postedBy: {
+        _id: "user2",
+        name: "Jane Smith",
+      },
+      created: new Date("2024-01-28T15:30:00Z"),
+    },
+  ]);
+
   return (
     <Card>
       <CardHeader
@@ -30,11 +54,16 @@ const Post = (props) => {
         <Typography component="p">{props.post.text}</Typography>
       </CardContent>
       <CardActions>
-        <IconButton aria-label="Comment" color="secondary">
+        <IconButton
+          aria-label="Comment"
+          color="secondary"
+          onClick={() => setViewComments((value) => !value)}
+        >
           <CommentIcon />
         </IconButton>
         <span>{props.post._count.comments}</span>
       </CardActions>
+      {viewComments && <Comments postId={props.post._id} comments={comments} />}
     </Card>
   );
 };
