@@ -14,7 +14,7 @@ const classes = {
 const Comments = (props) => {
   const [text, setText] = useState("");
   const jwt = authHelper.isAuthenticated();
-  console.log(props)
+  console.log(props);
   const addComment = (event) => {
     console.log("test");
     if (event.keyCode === 13 && event.target.value) {
@@ -27,7 +27,7 @@ const Comments = (props) => {
         if (result.error) {
           console.log(result.error);
         } else {
-            console.log("uspjeh")
+          console.log("uspjeh");
           setText("");
           //   props.updateComments(data.comments);
         }
@@ -56,14 +56,17 @@ const Comments = (props) => {
   const commentBody = (item) => {
     return (
       <p className={classes.commentText}>
-        <Link to={"/user/" + item.author.id}>
-          {item.author.firstName + " " + item.author.lastName}
-        </Link>
+        <>
+          <Link to={"/user/" + item.author.id}>
+            {item.author.firstName + " " + item.author.lastName}
+          </Link>
+          ({item.author.username})
+        </>
         <br />
         {item.text}
         <br />
         <span className={classes.commentDate}>
-          {new Date(item.created).toDateString()} |
+          {new Date(item.createdAt).toDateString()} |
           {authHelper.isAuthenticated().user.id === item.author.id && (
             <IconButton
               onClick={deleteComment(item)}
@@ -77,6 +80,7 @@ const Comments = (props) => {
       </p>
     );
   };
+
   return (
     <Card>
       <CardHeader

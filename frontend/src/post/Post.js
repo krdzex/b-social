@@ -10,33 +10,25 @@ import {
 import { Link } from "react-router-dom";
 import CommentIcon from "@mui/icons-material/Comment";
 import Comments from "./Comments";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getComments } from "./api-post";
+import authHelper from "../auth/auth-helper";
 
 const Post = (props) => {
-  console.log(props);
+  const jwt = authHelper.isAuthenticated();
   const [viewComments, setViewComments] = useState(false);
-  const [comments, setComments] = useState([
-    {
-      id: "comment1",
-      text: "This is the first comment",
-      author: {
-        id: "user1",
-        firstName: "John",
-        lastName: "Doe",
-      },
-      createdAt: new Date("2024-01-29T12:00:00Z"),
-    },
-    {
-      _id: "comment2",
-      text: "This is the second comment",
-      author: {
-        id: "user2",
-        firstName: "Jane",
-        lastName: "Smith",
-      },
-      createdAt: new Date("2024-01-28T15:30:00Z"),
-    },
-  ]);
+  const [comments, setComments] = useState([]);
+
+  useEffect(() => {
+    getComments({ t: jwt.token }, props.post.id).then((result) => {
+      if (result.error) {
+        console.log(result.error);
+      } else {
+        console.log("uspjeh");
+        setComments(result.data);
+      }
+    });
+  }, [props.post]);
 
   return (
     <Card>

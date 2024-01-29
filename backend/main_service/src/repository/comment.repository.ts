@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { Comment } from "../modals/comment.modal";
-import { CreateCommentRequest } from "../dto/comment.dto";
+import { CommentForPostDto, CreateCommentRequest } from "../dto/comment.dto";
 import { ICommentRepository } from "../interface/commentRepository.interface";
 
 export class CommentRepository implements ICommentRepository {
@@ -19,6 +19,24 @@ export class CommentRepository implements ICommentRepository {
         text: data.text,
         authorId: userId,
         postId: postId,
+      },
+    });
+  }
+
+  async getCommentsForPost(postId: number): Promise<CommentForPostDto[]> {
+    return this._prisma.comment.findMany({
+      select: {
+        id: true,
+        text: true,
+        author: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            username: true,
+          },
+        },
+        createdAt: true,
       },
     });
   }

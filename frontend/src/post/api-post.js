@@ -52,4 +52,20 @@ const comment = async (credentials, postId, comment) => {
   }
 };
 
-export { create, listNewsFeed, comment };
+const getComments = async (credentials, postId) => {
+  try {
+    let response = await fetch(`${baseUrl}/post/${postId}/comments`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + credentials.t,
+      },
+    });
+    return await response.json();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export { create, listNewsFeed, comment, getComments };

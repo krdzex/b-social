@@ -1,4 +1,4 @@
-import { CreateCommentRequest } from "../dto/comment.dto";
+import { CommentForPostDto, CreateCommentRequest } from "../dto/comment.dto";
 import { Comment } from "../modals/comment.modal";
 
 export interface ICommentRepository {
@@ -7,4 +7,6 @@ export interface ICommentRepository {
     postId: number,
     userId: number
   ): Promise<Comment>;
+
+  getCommentsForPost(postId: number): Promise<CommentForPostDto[]>;
 }

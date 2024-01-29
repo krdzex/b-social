@@ -48,4 +48,20 @@ router.post(
   }
 );
 
+router.get(
+  "/post/:postId/comments",
+  authGuard,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const postId = Number(req.params.postId);
+
+      var comments = await commentService.getCommentsForPost(postId);
+
+      return res.jsonSuccess({ data: comments });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 export default router;

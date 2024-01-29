@@ -41,4 +41,16 @@ export class CommentService {
 
     return createCommentResult;
   }
+
+  async getCommentsForPost(postId: number) {
+    var post = await this._postRepository.getById(postId);
+
+    if (!post) {
+      throw HttpError.NotFound("Post not found");
+    }
+
+    var comments = await this._commentRepository.getCommentsForPost(postId);
+
+    return comments;
+  }
 }
