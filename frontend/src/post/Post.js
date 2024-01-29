@@ -65,7 +65,7 @@ const Post = (props) => {
         </IconButton>
         <span>{props.post._count.comments}</span>
       </CardActions>
-      {viewComments && <Comments postId={props.post._id} comments={comments} />}
+      {viewComments && <Comments postId={props.post.id} comments={comments} />}
     </Card>
   );
 };

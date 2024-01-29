@@ -3,6 +3,7 @@ import authHelper from "../auth/auth-helper";
 import { Link } from "react-router-dom";
 import { Avatar, Card, CardHeader, IconButton, TextField } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { comment } from "./api-post";
 
 const classes = {
   commentField: {
@@ -13,22 +14,25 @@ const classes = {
 const Comments = (props) => {
   const [text, setText] = useState("");
   const jwt = authHelper.isAuthenticated();
-
+  console.log(props)
   const addComment = (event) => {
     console.log("test");
-    // if (event.keyCode == 13 && event.target.value) {
-    //   event.preventDefault();
-    //   comment({ userId: jwt.user._id }, { t: jwt.token }, props.postId, {
-    //     text: text,
-    //   }).then((data) => {
-    //     if (data.error) {
-    //       console.log(error);
-    //     } else {
-    //       setText("");
-    //       props.updateComments(data.comments);
-    //     }
-    //   });
-    // }
+    if (event.keyCode === 13 && event.target.value) {
+      event.preventDefault();
+
+      var commentToAdd = {
+        text: text,
+      };
+      comment({ t: jwt.token }, props.postId, commentToAdd).then((result) => {
+        if (result.error) {
+          console.log(result.error);
+        } else {
+            console.log("uspjeh")
+          setText("");
+          //   props.updateComments(data.comments);
+        }
+      });
+    }
   };
 
   const onChange = (e) => {
@@ -52,7 +56,9 @@ const Comments = (props) => {
   const commentBody = (item) => {
     return (
       <p className={classes.commentText}>
-        <Link to={"/user/" + item.author.id}>{item.author.firstName + " " + item.author.lastName}</Link>
+        <Link to={"/user/" + item.author.id}>
+          {item.author.firstName + " " + item.author.lastName}
+        </Link>
         <br />
         {item.text}
         <br />

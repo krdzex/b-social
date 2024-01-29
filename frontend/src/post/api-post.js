@@ -35,4 +35,21 @@ const listNewsFeed = async (userId, credentials, signal) => {
   }
 };
 
-export { create, listNewsFeed };
+const comment = async (credentials, postId, comment) => {
+  try {
+    let response = await fetch(`${baseUrl}/post/${postId}/comments`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + credentials.t,
+      },
+      body: JSON.stringify(comment),
+    });
+    return await response.json();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export { create, listNewsFeed, comment };
