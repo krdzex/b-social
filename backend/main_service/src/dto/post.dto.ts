@@ -19,4 +19,5 @@ export class GetPostDto {
   text: string;
   user: UserForPostDto;
   createdAt: Date;
+  _count: { comments: number };
 }

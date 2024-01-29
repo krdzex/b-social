@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 import CommentIcon from "@mui/icons-material/Comment";
 
 const Post = (props) => {
+    console.log(props)
   return (
     <Card>
       <CardHeader
@@ -32,7 +33,7 @@ const Post = (props) => {
         <IconButton aria-label="Comment" color="secondary">
           <CommentIcon />
         </IconButton>
-        <span>5</span>
+        <span>{props.post._count.comments}</span>
       </CardActions>
     </Card>
   );

@@ -31,6 +31,9 @@ export class PostRepository implements IPostRepository {
             username: true,
           },
         },
+        _count: {
+          select: { comments: true },
+        },
       },
       where: {
         userId,
@@ -55,6 +58,9 @@ export class PostRepository implements IPostRepository {
             lastName: true,
             username: true,
           },
+        },
+        _count: {
+          select: { comments: true },
         },
       },
     });
