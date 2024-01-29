@@ -17,6 +17,7 @@ import FollowProfileButton from "./FollowProfileButton";
 import auth from "../auth/auth-helper";
 import { useNavigate } from "react-router-dom";
 import { getUserById } from "./api-user";
+import ProfileTabs from "./ProfileTabs";
 
 export default function Profile() {
   const { userId } = useParams();
@@ -118,7 +119,7 @@ export default function Profile() {
             }
           />
         </ListItem>
-        {/* <ProfileTabs values={values} /> */}
+        <ProfileTabs values={values} />
       </List>
     </Paper>
   );
