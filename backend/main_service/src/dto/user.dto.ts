@@ -64,3 +64,9 @@ export class GetUserDto {
   email: string;
   createdAt: Date;
 }
+
+export class UserForPostDto{
+  id: number;
+  firstName: string;
+  lastName: string;
+}

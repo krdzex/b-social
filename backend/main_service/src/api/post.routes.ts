@@ -40,4 +40,20 @@ router.post(
   }
 );
 
+router.get(
+  "/post/feed/:userId",
+  authGuard,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const userId = Number(req.params.userId);
+
+      var posts = await postService.getPostFeed(userId);
+
+      return res.jsonSuccess({ data: posts });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 export default router;

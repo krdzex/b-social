@@ -19,7 +19,7 @@ const NewsFeed = () => {
       createdAt: new Date("2024-01-29T12:00:00Z"),
     },
     {
-      iid: "2",
+      id: "2",
       text: "This is the second post",
       user: {
         id: "user2",

@@ -1,5 +1,5 @@
 import { IsNotEmpty, IsString } from "class-validator";
-import { User } from "../modals/user.modal";
+import { UserForPostDto } from "./user.dto";
 
 export class CreatePostRequest {
   @IsString({ message: "Post text should be string" })
@@ -12,4 +12,11 @@ export class CreatePostDTO {
   constructor(data: { text: string }) {
     this.text = data.text;
   }
+}
+
+export class GetPostDto{
+    id: number;
+    text: string;
+    user: UserForPostDto;
+    createdAt: Date;
 }

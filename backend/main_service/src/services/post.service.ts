@@ -33,4 +33,10 @@ export class PostService {
 
     return createUserResult;
   }
+
+  async getPostFeed(userId: number) {
+    var posts = await this._postRepository.getFeed(userId);
+
+    return posts;
+  }
 }
