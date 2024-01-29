@@ -30,11 +30,24 @@ export class PostRepository implements IPostRepository {
     });
   }
 
-  async create(data: CreatePostDTO, user: GetUserDto): Promise<Post> {
+  async create(data: CreatePostDTO, user: GetUserDto): Promise<GetPostDto> {
     return this._prisma.post.create({
       data: {
         text: data.text,
         userId: user.id,
+      },
+      select: {
+        id: true,
+        text: true,
+        createdAt: true,
+        user: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            username: true,
+          },
+        },
       },
     });
   }

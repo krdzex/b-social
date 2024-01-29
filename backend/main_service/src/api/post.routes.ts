@@ -31,9 +31,9 @@ router.post(
           data: errors,
         });
 
-      await postService.create(input, userId);
+      var postResult = await postService.create(input, userId);
 
-      return res.jsonSuccess({ status: 201 });
+      return res.jsonSuccess({ status: 201, data: postResult });
     } catch (error) {
       next(error);
     }

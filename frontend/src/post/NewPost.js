@@ -11,14 +11,14 @@ const NewPost = (props) => {
     const post = {
       text: text || undefined,
     };
-    create({ t: jwt.token }, post).then((data) => {
-      console.log(data);
-      //   if (data.error) {
-      //     setValues({ ...values, error: data.error });
-      //   } else {
-      //     setValues({ ...values, text: "", photo: "" });
-      //     props.addUpdate(data);
-      //   }
+    create({ t: jwt.token }, post).then((result) => {
+      console.log(result);
+      if (result.error) {
+        //   setValues({ ...values, error: data.error });
+      } else {
+        setText("");
+        props.addUpdate(result.data);
+      }
     });
   };
 

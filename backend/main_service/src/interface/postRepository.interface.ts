@@ -3,6 +3,6 @@ import { CreatePostDTO, GetPostDto } from "../dto/post.dto";
 import { GetUserDto } from "../dto/user.dto";
 
 export interface IPostRepository {
-  create(data: CreatePostDTO, user: GetUserDto): Promise<Post>;
+  create(data: CreatePostDTO, user: GetUserDto): Promise<GetPostDto>;
   getFeed(userId: number): Promise<GetPostDto[]>;
 }

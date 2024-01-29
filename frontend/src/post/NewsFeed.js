@@ -41,11 +41,11 @@ const NewsFeed = () => {
     const aborController = new AbortController();
     const signal = aborController.signal;
 
-    listNewsFeed(userId, { t: jwt.token }, signal).then((data) => {
-      if (data.error) {
-        console.log(data.error);
+    listNewsFeed(userId, { t: jwt.token }, signal).then((result) => {
+      if (result.error) {
+        console.log(result.error);
       } else {
-        setPosts(data);
+        setPosts(result.data);
       }
     });
 
@@ -53,6 +53,7 @@ const NewsFeed = () => {
       aborController.abort();
     };
   }, [userId]);
+
   return (
     <Card>
       <Typography type="title">NewsFeed</Typography>

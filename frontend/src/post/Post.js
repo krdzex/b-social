@@ -16,11 +16,14 @@ const Post = (props) => {
       <CardHeader
         avatar={<Avatar />}
         title={
-          <Link to={"/user/" + props.post.user.id}>
-            {props.post.user.name}
-          </Link>
+          <>
+            <Link to={"/user/" + props.post.user.id}>
+              {props.post.user.firstName + " " + props.post.user.lastName}
+            </Link>
+            ({props.post.user.username})
+          </>
         }
-        subheader={new Date(props.post.createdAt).toDateString()}
+        subheader={"Posted: " + new Date(props.post.createdAt).toDateString()}
       />
       <CardContent>
         <Typography component="p">{props.post.text}</Typography>
