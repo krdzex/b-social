@@ -16,9 +16,9 @@ import { Link, useParams } from "react-router-dom";
 import FollowProfileButton from "./FollowProfileButton";
 import auth from "../auth/auth-helper";
 import { useNavigate } from "react-router-dom";
+import { getUserById } from "./api-user";
 
 export default function Profile() {
-
   const { userId } = useParams();
 
   const navigate = useNavigate();
@@ -38,32 +38,30 @@ export default function Profile() {
     },
   };
 
-  const checkFollow = (user) => {
-    const match = user.followers.some((follower) => {
-      return follower._id == jwt.user._id;
-    });
-    return match;
-  };
+  // const checkFollow = (user) => {
+  //   const match = user.followers.some((follower) => {
+  //     return follower._id == jwt.user._id;
+  //   });
+  //   return match;
+  // };
   const [redirectToSignin, setRedirectToSignin] = useState(false);
   const [values, setValues] = useState({
-    user: { following: [], followers: [] },
-    following: false,
+    user: {},
   });
   const jwt = auth.isAuthenticated();
-  const photoUrl = values.user._id
-    ? `http://localhost:4400/api/users/photo/${
-        values.user._id
-      }?${new Date().getTime()}`
-    : `http://localhost:4400/api/defaultphoto`;
+  const photoUrl = "";
+
   useEffect(() => {
-    // read({ userId: match.params.userId }, jwt.token).then((data) => {
-    //   if (data && data.error) {
-    //     setRedirectToSignin(true);
-    //   } else {
-    //     setValues({ ...values, user: data, following: checkFollow(data) });
-    //   }
-    // });
+    getUserById({ userId: userId }, jwt.token).then((data) => {
+      console.log(data);
+      if (data && data.error) {
+        setRedirectToSignin(true);
+      } else {
+        setValues({ user: data.data });
+      }
+    });
   }, [userId]);
+
   const clickFollowButton = (callApi) => {
     callApi({ userId: jwt.user._id }, { t: jwt.token }, values.user._id).then(
       (data) => {
@@ -91,13 +89,13 @@ export default function Profile() {
             <Avatar src={photoUrl} />
           </ListItemAvatar>
           <ListItemText
-            primary={values.user.name}
-            secondary={values.user.email}
+            primary={values.user?.firstName + " " + values.user?.lastName}
+            secondary={values.user?.email}
           />
           {auth.isAuthenticated().user &&
-          auth.isAuthenticated().user._id === values.user._id ? (
+          auth.isAuthenticated().user.id === values.user?.id ? (
             <ListItemSecondaryAction>
-              <Link to={"/user/edit/" + values.user._id}>
+              <Link to={"/user/edit/" + values.user?.id}>
                 <IconButton aria-label="Edit" color="primary">
                   {/* <Edit /> */}
                 </IconButton>
@@ -114,9 +112,9 @@ export default function Profile() {
         <Divider />
         <ListItem>
           <ListItemText
-            primary={values.user.about}
+            primary={values.user?.username}
             secondary={
-              "Joined: " + new Date(values.user.created).toDateString()
+              "Joined: " + new Date(values.user?.createdAt).toDateString()
             }
           />
         </ListItem>

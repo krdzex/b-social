@@ -54,4 +54,21 @@ router.post(
   }
 );
 
+router.get(
+  "/user/:userId",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const userId = Number(req.params.userId);
+
+      console.log(userId);
+      const result = await userService.getUserById(userId);
+
+      console.log(result)
+      return res.jsonSuccess({ data: result });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 export default router;

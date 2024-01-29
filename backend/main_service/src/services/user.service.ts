@@ -63,4 +63,15 @@ export class UserService {
 
     return {token, user};
   }
+
+
+  async getUserById(id: number) {
+    const user = await this._userRepository.findById(id);
+
+    if (!user) {
+      throw HttpError.NotFound("There is no user with this id");
+    }
+
+    return user;
+  }
 }

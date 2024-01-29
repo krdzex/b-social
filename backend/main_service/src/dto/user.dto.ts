@@ -55,3 +55,12 @@ export class CreateUserWithHashedPasswordDTO {
     this.hashedPassword = data.hashedPassword;
   }
 }
+
+export class GetUserDto {
+  id: number;
+  firstName: string;
+  lastName: string;
+  username: string;
+  email: string;
+  createdAt: Date;
+}

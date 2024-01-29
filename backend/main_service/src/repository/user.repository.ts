@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { CreateUserWithHashedPasswordDTO } from "../dto/user.dto";
+import { CreateUserWithHashedPasswordDTO, GetUserDto } from "../dto/user.dto";
 import { IUserRepository } from "../interface/userRepository.interface";
 import { User } from "../modals/user.modal";
 
@@ -23,10 +23,22 @@ export class UserRepository implements IUserRepository {
   }
 
   async findByEmail(email: string): Promise<User | null> {
-    const user = await this._prisma.user.findFirst({
+    return await this._prisma.user.findFirst({
       where: { email },
     });
+  }
 
-    return Promise.resolve(user);
+  async findById(id: number): Promise<GetUserDto | null> {
+    return await this._prisma.user.findFirst({
+      where: { id },
+      select: {
+        id: true,
+        firstName: true,
+        lastName: true,
+        email: true,
+        username: true,
+        createdAt: true
+      },
+    });
   }
 }
