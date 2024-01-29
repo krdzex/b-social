@@ -14,9 +14,9 @@ export class CreatePostDTO {
   }
 }
 
-export class GetPostDto{
-    id: number;
-    text: string;
-    user: UserForPostDto;
-    createdAt: Date;
+export class GetPostDto {
+  id: number;
+  text: string;
+  user: UserForPostDto;
+  createdAt: Date;
 }

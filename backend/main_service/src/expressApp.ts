@@ -1,6 +1,7 @@
 import express from "express";
 import userRouter from "./api/user.routes";
 import postRouter from "./api/post.routes";
+import commentRouter from "./api/comment.routes";
 import errorHandler from "./utils/errorHandler";
 import jsonResponseMiddleware from "./middlewares/json-response.middleware";
 import passport from "passport";
@@ -29,6 +30,7 @@ app.use(cookieParser());
 
 app.use("/", userRouter);
 app.use("/", postRouter);
+app.use("/", commentRouter);
 
 app.use(errorHandler);
 

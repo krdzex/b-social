@@ -9,6 +9,14 @@ export class PostRepository implements IPostRepository {
   constructor() {
     this._prisma = new PrismaClient();
   }
+  async getById(postId: number): Promise<Post | null> {
+    return await this._prisma.post.findFirst({
+      where: {
+        id: postId,
+      },
+    });
+  }
+
   async getFeed(userId: number): Promise<GetPostDto[]> {
     return await this._prisma.post.findMany({
       select: {

@@ -25,11 +25,12 @@ router.post(
 
       const userId = req.user.id;
 
-      if (errors)
+      if (errors) {
         return res.jsonError({
           msg: "Validation Error",
           data: errors,
         });
+      }
 
       var postResult = await postService.create(input, userId);
 
