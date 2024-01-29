@@ -18,4 +18,21 @@ const create = async (credentials, post) => {
   }
 };
 
-export { create };
+const listNewsFeed = async (userId, credentials, signal) => {
+  try {
+    let response = await fetch(`${baseUrl}/post/feed/` + userId, {
+      method: "GET",
+      signal: signal,
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + credentials.t,
+      },
+    });
+    return await response.json();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export { create, listNewsFeed };
