@@ -84,4 +84,27 @@ const deleteComment = async (credentials, commentId) => {
   }
 };
 
-export { create, listNewsFeed, comment, getComments, deleteComment };
+const removePost = async (postId, token) => {
+  try {
+    let response = await fetch(`${baseUrl}/post/${postId}`, {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token.t,
+      },
+    });
+    return await response.json();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export {
+  create,
+  listNewsFeed,
+  comment,
+  getComments,
+  deleteComment,
+  removePost,
+};
