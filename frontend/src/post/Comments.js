@@ -2,7 +2,7 @@ import { useState } from "react";
 import authHelper from "../auth/auth-helper";
 import { Link } from "react-router-dom";
 import { Avatar, Card, CardHeader, IconButton, TextField } from "@mui/material";
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const classes = {
   commentField: {
@@ -15,7 +15,7 @@ const Comments = (props) => {
   const jwt = authHelper.isAuthenticated();
 
   const addComment = (event) => {
-    console.log("test")
+    console.log("test");
     // if (event.keyCode == 13 && event.target.value) {
     //   event.preventDefault();
     //   comment({ userId: jwt.user._id }, { t: jwt.token }, props.postId, {
@@ -52,13 +52,13 @@ const Comments = (props) => {
   const commentBody = (item) => {
     return (
       <p className={classes.commentText}>
-        <Link to={"/user/" + item.postedBy._id}>{item.postedBy.name}</Link>
+        <Link to={"/user/" + item.author.id}>{item.author.firstName + " " + item.author.lastName}</Link>
         <br />
         {item.text}
         <br />
         <span className={classes.commentDate}>
           {new Date(item.created).toDateString()} |
-          {authHelper.isAuthenticated().user._id === item.postedBy._id && (
+          {authHelper.isAuthenticated().user.id === item.author.id && (
             <IconButton
               onClick={deleteComment(item)}
               className={classes.button}

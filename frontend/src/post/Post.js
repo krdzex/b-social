@@ -17,22 +17,24 @@ const Post = (props) => {
   const [viewComments, setViewComments] = useState(false);
   const [comments, setComments] = useState([
     {
-      _id: "comment1",
+      id: "comment1",
       text: "This is the first comment",
-      postedBy: {
-        _id: "user1",
-        name: "John Doe",
+      author: {
+        id: "user1",
+        firstName: "John",
+        lastName: "Doe",
       },
-      created: new Date("2024-01-29T12:00:00Z"),
+      createdAt: new Date("2024-01-29T12:00:00Z"),
     },
     {
       _id: "comment2",
       text: "This is the second comment",
-      postedBy: {
-        _id: "user2",
-        name: "Jane Smith",
+      author: {
+        id: "user2",
+        firstName: "Jane",
+        lastName: "Smith",
       },
-      created: new Date("2024-01-28T15:30:00Z"),
+      createdAt: new Date("2024-01-28T15:30:00Z"),
     },
   ]);
 
