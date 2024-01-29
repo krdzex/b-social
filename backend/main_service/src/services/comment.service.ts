@@ -32,13 +32,13 @@ export class CommentService {
       throw HttpError.NotFound("Post not found");
     }
 
-    console.log();
     var createCommentResult = await this._commentRepository.create(
       input,
       postId,
       userId
     );
 
+    console.log(createCommentResult);
     return createCommentResult;
   }
 

@@ -3,7 +3,7 @@ import authHelper from "../auth/auth-helper";
 import { Link } from "react-router-dom";
 import { Avatar, Card, CardHeader, IconButton, TextField } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { comment } from "./api-post";
+import { comment, deleteComment } from "./api-post";
 
 const classes = {
   commentField: {
@@ -14,9 +14,8 @@ const classes = {
 const Comments = (props) => {
   const [text, setText] = useState("");
   const jwt = authHelper.isAuthenticated();
-  console.log(props);
+
   const addComment = (event) => {
-    console.log("test");
     if (event.keyCode === 13 && event.target.value) {
       event.preventDefault();
 
@@ -27,9 +26,8 @@ const Comments = (props) => {
         if (result.error) {
           console.log(result.error);
         } else {
-          console.log("uspjeh");
           setText("");
-          //   props.updateComments(data.comments);
+          props.addComment(result.data);
         }
       });
     }
@@ -39,20 +37,16 @@ const Comments = (props) => {
     setText(e.target.value);
   };
 
-  const deleteComment = (comment) => (event) => {
-    // uncomment(
-    //   { userId: jwt.user._id },
-    //   { t: jwt.token },
-    //   props.postId,
-    //   comment
-    // ).then((data) => {
-    //   if (data.error) {
-    //     console.log(data.error);
-    //   } else {
-    //     props.updateComments(data.comments);
-    //   }
-    // });
+  const deleteCommentClick = (comment) => (event) => {
+    deleteComment({ t: jwt.token }, comment.id).then((data) => {
+      if (data.error) {
+        console.log(data.error);
+      } else {
+        props.removeComment(comment.id);
+      }
+    });
   };
+
   const commentBody = (item) => {
     return (
       <p className={classes.commentText}>
@@ -69,7 +63,7 @@ const Comments = (props) => {
           {new Date(item.createdAt).toDateString()} |
           {authHelper.isAuthenticated().user.id === item.author.id && (
             <IconButton
-              onClick={deleteComment(item)}
+              onClick={deleteCommentClick(item)}
               className={classes.button}
               aria-label="Like"
             >

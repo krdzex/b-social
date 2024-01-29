@@ -72,7 +72,6 @@ export default function Signup() {
     };
 
     create(user).then((data) => {
-      console.log(data);
       if (data.error) setValues({ ...values, error: data.error });
       else setValues({ ...values, error: "", open: true });
     });

@@ -24,11 +24,20 @@ const Post = (props) => {
       if (result.error) {
         console.log(result.error);
       } else {
-        console.log("uspjeh");
         setComments(result.data);
       }
     });
-  }, [props.post]);
+  }, [props.post.id]);
+
+  const removeComment = (idToRemove) => {
+    setComments(comments.filter((comment) => comment.id !== idToRemove));
+  };
+
+  const addComment = (comment) => {
+    const updatedComments = [...comments];
+    updatedComments.unshift(comment);
+    setComments(updatedComments);
+  };
 
   return (
     <Card>
@@ -57,7 +66,14 @@ const Post = (props) => {
         </IconButton>
         <span>{props.post._count.comments}</span>
       </CardActions>
-      {viewComments && <Comments postId={props.post.id} comments={comments} />}
+      {viewComments && (
+        <Comments
+          postId={props.post.id}
+          comments={comments}
+          removeComment={removeComment}
+          addComment={addComment}
+        />
+      )}
     </Card>
   );
 };

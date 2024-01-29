@@ -41,7 +41,7 @@ router.post(
         userId
       );
 
-      return res.jsonSuccess({ status: 202 });
+      return res.jsonSuccess({ status: 201, data: createCommentResult });
     } catch (error) {
       next(error);
     }

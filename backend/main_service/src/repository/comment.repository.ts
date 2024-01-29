@@ -80,6 +80,12 @@ export class CommentRepository implements ICommentRepository {
         },
         createdAt: true,
       },
+      where: {
+        postId: postId,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
     });
   }
 }

@@ -60,10 +60,8 @@ router.get(
     try {
       const userId = Number(req.params.userId);
 
-      console.log(userId);
       const result = await userService.getUserById(userId);
 
-      console.log(result)
       return res.jsonSuccess({ data: result });
     } catch (error) {
       next(error);

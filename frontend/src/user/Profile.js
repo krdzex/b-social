@@ -39,12 +39,6 @@ export default function Profile() {
     },
   };
 
-  // const checkFollow = (user) => {
-  //   const match = user.followers.some((follower) => {
-  //     return follower._id == jwt.user._id;
-  //   });
-  //   return match;
-  // };
   const [redirectToSignin, setRedirectToSignin] = useState(false);
   const [values, setValues] = useState({
     user: {},
@@ -54,7 +48,6 @@ export default function Profile() {
 
   useEffect(() => {
     getUserById({ userId: userId }, jwt.token).then((data) => {
-      console.log(data);
       if (data && data.error) {
         setRedirectToSignin(true);
       } else {

@@ -38,6 +38,9 @@ export class PostRepository implements IPostRepository {
       where: {
         userId,
       },
+      orderBy:{
+        createdAt: "desc"
+      }
     });
   }
 

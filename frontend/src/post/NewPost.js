@@ -6,13 +6,12 @@ import { Button, Card, TextField } from "@mui/material";
 const NewPost = (props) => {
   const jwt = authHelper.isAuthenticated();
   const [text, setText] = useState("");
+
   const clickPost = () => {
-    console.log(text);
     const post = {
       text: text || undefined,
     };
     create({ t: jwt.token }, post).then((result) => {
-      console.log(result);
       if (result.error) {
         //   setValues({ ...values, error: data.error });
       } else {
