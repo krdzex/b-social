@@ -110,4 +110,13 @@ export class UserService {
 
     return users;
   }
+
+  async checkIfFollowing(userId: number, followingId: number) {
+    const follower = await this._userRepository.findById(followingId);
+    if (!follower) {
+      throw HttpError.BadRequest("User not found");
+    }
+
+    var result = await this._userRepository.followExist(userId, followingId);
+  }
 }

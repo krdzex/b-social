@@ -15,6 +15,19 @@ export class UserRepository implements IUserRepository {
     this._prisma = new PrismaClient();
   }
 
+  async followExist(userId: number, followingId: number): Promise<boolean> {
+    const followExists = await this._prisma.follow.findUnique({
+      where: {
+        followerId_followingId: {
+          followerId: userId,
+          followingId: followingId,
+        },
+      },
+    });
+
+    return !!followExists;
+  }
+
   async getAll(): Promise<GetUserDto[]> {
     return await this._prisma.user.findMany({
       select: {

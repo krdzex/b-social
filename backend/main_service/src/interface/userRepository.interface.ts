@@ -14,4 +14,5 @@ export interface IUserRepository {
   getFollowingPeople(userId: number): Promise<GetFollowingUser[]>;
   getFollowers(userId: number): Promise<GetFollowerUser[]>;
   getAll(): Promise<GetUserDto[]>;
+  followExist(userId: number, followingId: number) : Promise<boolean>
 }

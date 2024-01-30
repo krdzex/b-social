@@ -133,4 +133,21 @@ router.get(
   }
 );
 
+router.get(
+  "/user/:followingId/followStatus",
+  authGuard,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const followingId = Number(req.params.followingId);
+      const userId = req.user.id;
+
+      var result = await userService.checkIfFollowing(userId, followingId);
+
+      return res.jsonSuccess({ data: { isFollowing: result } });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 export default router;
