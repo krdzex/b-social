@@ -14,8 +14,12 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import PersonIcon from "@mui/icons-material/Person";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import { getAllUsers } from "./api-user";
+import authHelper from "../auth/auth-helper";
 
 const Users = () => {
+  const jwt = authHelper.isAuthenticated();
+
   const theme = useTheme();
 
   const classes = {
@@ -28,38 +32,18 @@ const Users = () => {
       color: theme.palette.openTitle,
     },
   };
-  const [users, setUsers] = useState([
-    {
-      id: 10,
-      firstName: "Krsto",
-      lastName: "Kostic",
-    },
-    {
-      id: 10,
-      firstName: "Krsto",
-      lastName: "Kostic",
-    },
-    {
-      id: 10,
-      firstName: "Krsto",
-      lastName: "Kostic",
-    },
-    {
-      id: 10,
-      firstName: "Krsto",
-      lastName: "Kostic",
-    },
-  ]);
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    // list().then((data) => {
-    //   if (data && data.error) {
-    //     console.log(data.error);
-    //   } else {
-    //     setUsers(data);
-    //   }
-    // });
+    getAllUsers({ t: jwt.token }).then((result) => {
+      if (result.error) {
+        console.log(result.error);
+      } else {
+        setUsers(result.data);
+      }
+    });
   }, []);
+
   return (
     <div>
       <Paper sx={classes.root} elevation={4}>
@@ -77,8 +61,8 @@ const Users = () => {
                     </Avatar>
                   </ListItemAvatar>
                   <ListItemText
-                    primary={item.firstName + " " + item.lastName}
-                    secondary={"Username: test"}
+                    primary={item.firstName + " " + item.lastName + " - " + item.username}
+                    secondary={"Email: " + item.email}
                   />
                   <ListItemSecondaryAction>
                     <IconButton>

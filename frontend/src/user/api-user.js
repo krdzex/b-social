@@ -49,4 +49,17 @@ const getFollowers = (userId, token) => {
     .catch((err) => console.log(err));
 };
 
-export { create, getUserById, getFollowingPeople, getFollowers };
+const getAllUsers = (token) => {
+  return fetch(`${baseUrl}/users`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token.t,
+    },
+  })
+    .then((response) => response.json())
+    .catch((err) => console.log(err));
+};
+
+export { create, getUserById, getFollowingPeople, getFollowers, getAllUsers };
