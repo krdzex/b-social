@@ -57,15 +57,15 @@ export default function Profile() {
   }, [userId]);
 
   const clickFollowButton = (callApi) => {
-    callApi({ userId: jwt.user._id }, { t: jwt.token }, values.user._id).then(
-      (data) => {
-        if (data.error) {
-          setValues({ ...values, error: data.error });
-        } else {
-          setValues({ ...values, user: data, following: !values.following });
-        }
-      }
-    );
+    // callApi({ userId: jwt.user.id }, { t: jwt.token }, values.user._id).then(
+    //   (data) => {
+    //     if (data.error) {
+    //       setValues({ ...values, error: data.error });
+    //     } else {
+    //       setValues({ ...values, user: data, following: !values.following });
+    //     }
+    //   }
+    // );
   };
 
   if (redirectToSignin) {
