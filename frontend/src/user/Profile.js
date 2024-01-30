@@ -85,21 +85,10 @@ export default function Profile() {
             primary={values.user?.firstName + " " + values.user?.lastName}
             secondary={values.user?.email}
           />
-          {auth.isAuthenticated().user &&
-          auth.isAuthenticated().user.id === values.user?.id ? (
-            <ListItemSecondaryAction>
-              <Link to={"/user/edit/" + values.user?.id}>
-                <IconButton aria-label="Edit" color="primary">
-                  {/* <Edit /> */}
-                </IconButton>
-              </Link>
-            </ListItemSecondaryAction>
-          ) : (
-            <FollowProfileButton
-              following={values.following}
-              onButtonClick={clickFollowButton}
-            />
-          )}
+          <FollowProfileButton
+            following={values.following}
+            onButtonClick={clickFollowButton}
+          />
         </ListItem>
         <Divider />
         <ListItem>

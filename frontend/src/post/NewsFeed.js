@@ -43,8 +43,12 @@ const NewsFeed = () => {
     <Card>
       <Typography type="title">NewsFeed</Typography>
       <Divider />
-      <NewPost addUpdate={addPost} />
-      <Divider />
+      {authHelper.isAuthenticated().user.id === userId && (
+        <>
+          <NewPost addUpdate={addPost} />
+          <Divider />
+        </>
+      )}
       <PostList posts={posts} removeUpdate={removePost} />
     </Card>
   );
