@@ -1,15 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
-// import { unfollow, follow } from './api-user';
 import { Button } from "@mui/material";
-import { follow } from "./api-user";
+import { follow, unfollow } from "./api-user";
 
 export default function FollowProfileButton(props) {
   const followClick = () => {
     props.onButtonClick(follow);
   };
   const unfollowClick = () => {
-    console.log("unfollow");
+    props.onButtonClick(unfollow);
   };
 
   return (

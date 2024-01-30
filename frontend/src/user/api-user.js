@@ -91,6 +91,22 @@ const follow = async (followId, credentials) => {
   }
 };
 
+const unfollow = async (followId, credentials) => {
+  try {
+    let response = await fetch(`${baseUrl}/users/follows/${followId}`, {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + credentials.t,
+      },
+    });
+    return await response.json();
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export {
   create,
   getUserById,
@@ -99,4 +115,5 @@ export {
   getAllUsers,
   chackIfFollowing,
   follow,
+  unfollow,
 };
