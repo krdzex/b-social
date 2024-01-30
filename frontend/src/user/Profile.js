@@ -11,12 +11,12 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useId } from "react";
 import { Link, useParams } from "react-router-dom";
 import FollowProfileButton from "./FollowProfileButton";
 import auth from "../auth/auth-helper";
 import { useNavigate } from "react-router-dom";
-import { getUserById } from "./api-user";
+import { chackIfFollowing, getUserById } from "./api-user";
 import ProfileTabs from "./ProfileTabs";
 
 export default function Profile() {
@@ -40,19 +40,28 @@ export default function Profile() {
   };
 
   const [redirectToSignin, setRedirectToSignin] = useState(false);
-  const [values, setValues] = useState({
-    user: {},
-  });
+  const [user, setUser] = useState({});
+  const [following, setFollowing] = useState(false);
   const jwt = auth.isAuthenticated();
 
   useEffect(() => {
-    getUserById({ userId: userId }, jwt.token).then((data) => {
-      if (data && data.error) {
+    getUserById({ userId: userId }, jwt.token).then((result) => {
+      if (result && result.error) {
         setRedirectToSignin(true);
       } else {
-        setValues({ user: data.data });
+        setUser(result.data);
       }
     });
+
+    if (auth.isAuthenticated().user.id !== parseInt(userId)) {
+      chackIfFollowing(userId, { t: jwt.token }).then((result) => {
+        if (result.error) {
+          console.log(result.error);
+        } else {
+          setFollowing(result.data.isFollowing)
+        }
+      });
+    }
   }, [userId]);
 
   const clickFollowButton = (callApi) => {
@@ -71,6 +80,7 @@ export default function Profile() {
     navigate("/signin");
     return null;
   }
+
   return (
     <Paper sx={classes.root} elevation={4}>
       <Typography variant="h6" sx={classes.title}>
@@ -82,24 +92,26 @@ export default function Profile() {
             <Avatar />
           </ListItemAvatar>
           <ListItemText
-            primary={values.user?.firstName + " " + values.user?.lastName}
-            secondary={values.user?.email}
+            primary={user?.firstName + " " + user?.lastName}
+            secondary={user?.email}
           />
-          <FollowProfileButton
-            following={values.following}
-            onButtonClick={clickFollowButton}
-          />
+          {auth.isAuthenticated().user.id !== parseInt(userId) && (
+            <FollowProfileButton
+              following={following}
+              onButtonClick={clickFollowButton}
+            />
+          )}
         </ListItem>
         <Divider />
         <ListItem>
           <ListItemText
-            primary={values.user?.username}
+            primary={user?.username}
             secondary={
-              "Joined: " + new Date(values.user?.createdAt).toDateString()
+              "Joined: " + new Date(user?.createdAt).toDateString()
             }
           />
         </ListItem>
-        <ProfileTabs values={values} />
+        <ProfileTabs user={user} />
       </List>
     </Paper>
   );

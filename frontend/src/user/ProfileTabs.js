@@ -50,7 +50,7 @@ export default function ProfileTabs(props) {
           <Tab label="Posts" />
           <Tab label="Following" />
           <Tab label="Followers" />
-          {authHelper.isAuthenticated().user.id === props.values.user.id && (
+          {authHelper.isAuthenticated().user.id === props.user.id && (
             <Tab label="To follow" />
           )}
         </Tabs>
@@ -64,7 +64,7 @@ export default function ProfileTabs(props) {
       <TabPanel value={value} index={2}>
         <FollowerGrid />
       </TabPanel>
-      {authHelper.isAuthenticated().user._id === props.values.user._id && (
+      {authHelper.isAuthenticated().user.id === props.user.id && (
         <TabPanel value={value} index={3}>
           <FindPeople />
         </TabPanel>

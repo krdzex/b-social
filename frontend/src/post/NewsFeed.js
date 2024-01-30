@@ -43,7 +43,7 @@ const NewsFeed = () => {
     <Card>
       <Typography type="title">NewsFeed</Typography>
       <Divider />
-      {authHelper.isAuthenticated().user.id === userId && (
+      {authHelper.isAuthenticated().user.id === parseInt(userId) && (
         <>
           <NewPost addUpdate={addPost} />
           <Divider />

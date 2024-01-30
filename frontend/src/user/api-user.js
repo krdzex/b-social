@@ -62,4 +62,24 @@ const getAllUsers = (token) => {
     .catch((err) => console.log(err));
 };
 
-export { create, getUserById, getFollowingPeople, getFollowers, getAllUsers };
+const chackIfFollowing = (userId, token) => {
+  return fetch(`${baseUrl}/user/${userId}/followStatus`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token.t,
+    },
+  })
+    .then((response) => response.json())
+    .catch((err) => console.log(err));
+};
+
+export {
+  create,
+  getUserById,
+  getFollowingPeople,
+  getFollowers,
+  getAllUsers,
+  chackIfFollowing,
+};

@@ -118,5 +118,7 @@ export class UserService {
     }
 
     var result = await this._userRepository.followExist(userId, followingId);
+
+    return result;
   }
 }
