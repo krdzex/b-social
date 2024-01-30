@@ -10,6 +10,15 @@ export class UserRepository implements IUserRepository {
     this._prisma = new PrismaClient();
   }
 
+  async follow(userId: number, followingId: number): Promise<void> {
+    await this._prisma.follow.create({
+      data: {
+        followerId: userId,
+        followingId: followingId,
+      },
+    });
+  }
+
   async create(data: CreateUserWithHashedPasswordDTO): Promise<User> {
     return this._prisma.user.create({
       data: {
@@ -37,7 +46,7 @@ export class UserRepository implements IUserRepository {
         lastName: true,
         email: true,
         username: true,
-        createdAt: true
+        createdAt: true,
       },
     });
   }

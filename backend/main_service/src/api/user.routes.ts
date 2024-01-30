@@ -3,6 +3,7 @@ import { UserRepository } from "../repository/user.repository";
 import { UserService } from "../services/user.service";
 import { RequestValidator } from "../utils/requestValidator";
 import { CreateUserRequest } from "../dto/user.dto";
+import { authGuard } from "../middlewares/auth.guard";
 
 const router = express.Router();
 
@@ -63,6 +64,23 @@ router.get(
       const result = await userService.getUserById(userId);
 
       return res.jsonSuccess({ data: result });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+router.post(
+  "/users/follows/:followingId",
+  authGuard,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const followingId = Number(req.params.followingId);
+      const userId = req.user.id;
+
+      await userService.followUser(userId, followingId);
+
+      return res.jsonSuccess({ data: 201 });
     } catch (error) {
       next(error);
     }
