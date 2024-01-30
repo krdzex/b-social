@@ -119,4 +119,18 @@ router.get(
   }
 );
 
+router.get(
+  "/users",
+  authGuard,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      var users = await userService.getAllUsers();
+
+      return res.jsonSuccess({ data: users });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 export default router;

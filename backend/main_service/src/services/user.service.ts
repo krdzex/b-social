@@ -104,4 +104,10 @@ export class UserService {
 
     return followers;
   }
+
+  async getAllUsers() {
+    const users = await this._userRepository.getAll();
+
+    return users;
+  }
 }

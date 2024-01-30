@@ -15,6 +15,22 @@ export class UserRepository implements IUserRepository {
     this._prisma = new PrismaClient();
   }
 
+  async getAll(): Promise<GetUserDto[]> {
+    return await this._prisma.user.findMany({
+      select: {
+        id: true,
+        firstName: true,
+        lastName: true,
+        username: true,
+        email: true,
+        createdAt: true,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+  }
+
   async follow(userId: number, followingId: number): Promise<void> {
     await this._prisma.follow.create({
       data: {

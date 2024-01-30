@@ -13,4 +13,5 @@ export interface IUserRepository {
   follow(userId: number, followingId: number): Promise<void>;
   getFollowingPeople(userId: number): Promise<GetFollowingUser[]>;
   getFollowers(userId: number): Promise<GetFollowerUser[]>;
+  getAll(): Promise<GetUserDto[]>;
 }
