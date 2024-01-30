@@ -6,8 +6,10 @@ import { CommentService } from "../services/comment.service";
 import { RequestValidator } from "../utils/requestValidator";
 import { CreateCommentRequest } from "../dto/comment.dto";
 import { CommentRepository } from "../repository/comment.repository";
+import { KafkaProducer } from "../kafkaProducer";
 
 const router = express.Router();
+const kafkaProducer = new KafkaProducer();
 
 export const commentService = new CommentService(
   new PostRepository(),
@@ -40,6 +42,8 @@ router.post(
         postId,
         userId
       );
+
+      kafkaProducer.publish("comments", JSON.stringify(createCommentResult));
 
       return res.jsonSuccess({ status: 201, data: createCommentResult });
     } catch (error) {
