@@ -44,7 +44,6 @@ export default function Profile() {
     user: {},
   });
   const jwt = auth.isAuthenticated();
-  const photoUrl = "";
 
   useEffect(() => {
     getUserById({ userId: userId }, jwt.token).then((data) => {
@@ -80,7 +79,7 @@ export default function Profile() {
       <List dense>
         <ListItem>
           <ListItemAvatar>
-            <Avatar src={photoUrl} />
+            <Avatar />
           </ListItemAvatar>
           <ListItemText
             primary={values.user?.firstName + " " + values.user?.lastName}
