@@ -75,6 +75,22 @@ const chackIfFollowing = (userId, token) => {
     .catch((err) => console.log(err));
 };
 
+const follow = async (followId, credentials) => {
+  try {
+    let response = await fetch(`${baseUrl}/users/follows/${followId}`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + credentials.t,
+      },
+    });
+    return await response.json();
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export {
   create,
   getUserById,
@@ -82,4 +98,5 @@ export {
   getFollowers,
   getAllUsers,
   chackIfFollowing,
+  follow,
 };

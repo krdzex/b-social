@@ -58,22 +58,20 @@ export default function Profile() {
         if (result.error) {
           console.log(result.error);
         } else {
-          setFollowing(result.data.isFollowing)
+          setFollowing(result.data.isFollowing);
         }
       });
     }
   }, [userId]);
 
   const clickFollowButton = (callApi) => {
-    // callApi({ userId: jwt.user.id }, { t: jwt.token }, values.user._id).then(
-    //   (data) => {
-    //     if (data.error) {
-    //       setValues({ ...values, error: data.error });
-    //     } else {
-    //       setValues({ ...values, user: data, following: !values.following });
-    //     }
-    //   }
-    // );
+    callApi(userId, { t: jwt.token }).then((result) => {
+      if (result.error) {
+        console.log(result.error);
+      } else {
+        setFollowing((prevState) => !prevState);
+      }
+    });
   };
 
   if (redirectToSignin) {
@@ -106,9 +104,7 @@ export default function Profile() {
         <ListItem>
           <ListItemText
             primary={user?.username}
-            secondary={
-              "Joined: " + new Date(user?.createdAt).toDateString()
-            }
+            secondary={"Joined: " + new Date(user?.createdAt).toDateString()}
           />
         </ListItem>
         <ProfileTabs user={user} />
