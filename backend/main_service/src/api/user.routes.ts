@@ -103,4 +103,20 @@ router.get(
   }
 );
 
+router.get(
+  "/user/:userId/followers",
+  authGuard,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const userId = Number(req.params.userId);
+
+      var followers = await userService.getFollowers(userId);
+
+      return res.jsonSuccess({ data: followers });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 export default router;

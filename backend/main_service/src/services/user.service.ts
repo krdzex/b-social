@@ -92,4 +92,16 @@ export class UserService {
 
     return followingUsers;
   }
+
+  async getFollowers(userId: number) {
+    const user = await this._userRepository.findById(userId);
+
+    if (!user) {
+      throw HttpError.NotFound("There is no user with this id");
+    }
+
+    const followers = await this._userRepository.getFollowers(userId);
+
+    return followers;
+  }
 }

@@ -78,3 +78,10 @@ export class GetFollowingUser {
   firstName: string;
   lastName: string;
 }
+
+export class GetFollowerUser {
+  id: number;
+  firstName: string;
+  lastName: string;
+}
+

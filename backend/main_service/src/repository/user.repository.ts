@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import {
   CreateUserWithHashedPasswordDTO,
+  GetFollowerUser,
   GetFollowingUser,
   GetUserDto,
 } from "../dto/user.dto";
@@ -40,6 +41,25 @@ export class UserRepository implements IUserRepository {
     });
 
     return followRelations.map((relation) => relation.following);
+  }
+
+  async getFollowers(userId: number): Promise<GetFollowerUser[]> {
+    return await this._prisma.follow
+      .findMany({
+        where: {
+          followingId: userId,
+        },
+        select: {
+          follower: {
+            select: {
+              id: true,
+              firstName: true,
+              lastName: true,
+            },
+          },
+        },
+      })
+      .then((follows) => follows.map((follow) => follow.follower));
   }
 
   async create(data: CreateUserWithHashedPasswordDTO): Promise<User> {
