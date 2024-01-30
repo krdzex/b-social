@@ -69,6 +69,15 @@ export class UserService {
     await this._userRepository.follow(userId, followingId);
   }
 
+  async unfollowUser(userId: number, followingId: number) {
+    const follower = await this._userRepository.findById(followingId);
+    if (!follower) {
+      throw HttpError.BadRequest("User not found");
+    }
+
+    await this._userRepository.unfollow(userId, followingId);
+  }
+
   async getUserById(id: number) {
     const user = await this._userRepository.findById(id);
 

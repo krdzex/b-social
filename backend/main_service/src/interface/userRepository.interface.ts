@@ -11,6 +11,7 @@ export interface IUserRepository {
   findByEmail(email: string): Promise<User | null>;
   findById(id: number): Promise<GetUserDto | null>;
   follow(userId: number, followingId: number): Promise<void>;
+  unfollow(userId: number, followingId: number): Promise<void>;
   getFollowingPeople(userId: number): Promise<GetFollowingUser[]>;
   getFollowers(userId: number): Promise<GetFollowerUser[]>;
   getAll(): Promise<GetUserDto[]>;

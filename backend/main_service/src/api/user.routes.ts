@@ -87,6 +87,23 @@ router.post(
   }
 );
 
+router.delete(
+  "/users/follows/:followingId",
+  authGuard,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const followingId = Number(req.params.followingId);
+      const userId = req.user.id;
+
+      await userService.unfollowUser(userId, followingId);
+
+      return res.jsonSuccess({ status: 201 });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 router.get(
   "/user/:userId/following",
   authGuard,
