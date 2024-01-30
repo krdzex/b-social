@@ -4,7 +4,7 @@ import seashell from "./../assets/images/seashell.jpg"
 
 const Home = () => {
   const theme = useTheme();
-
+  
   const classes = {
     card: {
       maxWidth: 600,
