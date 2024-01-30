@@ -94,7 +94,6 @@ export default function Profile() {
                   {/* <Edit /> */}
                 </IconButton>
               </Link>
-              {/* <DeleteUser userId={values.user._id} /> */}
             </ListItemSecondaryAction>
           ) : (
             <FollowProfileButton

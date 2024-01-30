@@ -4,6 +4,9 @@ import authHelper from "../auth/auth-helper";
 import { AppBar, Box, Tab, Tabs } from "@mui/material";
 import NewsFeed from "../post/NewsFeed";
 import FindPeople from "./FindPeople.js";
+import FollowGrid from "./BaseFollowGrid.js";
+import FollowingGrid from "./FollowingGrid.js";
+import FollowerGrid from "./FollowerGrid.js";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -32,7 +35,7 @@ export default function ProfileTabs(props) {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  
+
   return (
     <Box>
       <AppBar position="static">
@@ -55,12 +58,12 @@ export default function ProfileTabs(props) {
       <TabPanel value={value} index={0}>
         <NewsFeed />
       </TabPanel>
-      {/* <TabPanel value={value} index={1}>
-                <FollowGrid people={props.values.user.following} />
-            </TabPanel>
-            <TabPanel value={value} index={2} >
-                <FollowGrid people={props.values.user.followers} />
-            </TabPanel>*/}
+      <TabPanel value={value} index={1}>
+        <FollowingGrid />
+      </TabPanel>
+      <TabPanel value={value} index={2}>
+        <FollowerGrid />
+      </TabPanel>
       {authHelper.isAuthenticated().user._id === props.values.user._id && (
         <TabPanel value={value} index={3}>
           <FindPeople />
