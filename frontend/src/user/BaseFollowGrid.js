@@ -9,9 +9,11 @@ export default function BaseFollowGrid(props) {
         {props.people.map((person, i) => {
           return (
             <ImageListItem style={{ height: 120 }} key={i}>
-              <Link to={"/user/" + person._id}>
+              <Link to={"/user/" + person.id}>
                 <Avatar />
-                <Typography>{person.name}</Typography>
+                <Typography>
+                  {person.firstName + " " + person.lastName}
+                </Typography>
               </Link>
             </ImageListItem>
           );

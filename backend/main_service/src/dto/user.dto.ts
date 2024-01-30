@@ -25,7 +25,9 @@ export class CreateUserRequest {
 
   @IsString({ message: "Confirm Password name should be string" })
   @IsNotEmpty({ message: "Confirm Password is required" })
-  @Match('password',{message: "Confirm password and password are not matching"})
+  @Match("password", {
+    message: "Confirm password and password are not matching",
+  })
   confirmPassword: string;
 }
 
@@ -65,7 +67,13 @@ export class GetUserDto {
   createdAt: Date;
 }
 
-export class UserForPostDto{
+export class UserForPostDto {
+  id: number;
+  firstName: string;
+  lastName: string;
+}
+
+export class GetFollowingUser {
   id: number;
   firstName: string;
   lastName: string;

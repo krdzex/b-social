@@ -24,12 +24,12 @@ const getUserById = (params, token) => {
 };
 
 const getFollowingPeople = (userId, token) => {
-  return fetch(`${baseUrl}/user/:userId/following`, {
+  return fetch(`${baseUrl}/user/${userId}/following`, {
     method: "GET",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
+      Authorization: "Bearer " + token.t,
     },
   })
     .then((response) => response.json())

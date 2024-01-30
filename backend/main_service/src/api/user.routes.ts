@@ -80,7 +80,23 @@ router.post(
 
       await userService.followUser(userId, followingId);
 
-      return res.jsonSuccess({ data: 201 });
+      return res.jsonSuccess({ status: 201 });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+router.get(
+  "/user/:userId/following",
+  authGuard,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const userId = Number(req.params.userId);
+
+      var followingUsers = await userService.getFollowingPeople(userId);
+
+      return res.jsonSuccess({ data: followingUsers });
     } catch (error) {
       next(error);
     }
