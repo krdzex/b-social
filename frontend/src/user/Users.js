@@ -24,8 +24,10 @@ const Users = () => {
 
   const classes = {
     root: {
-      padding: theme.spacing(1),
-      margin: theme.spacing(5),
+      maxWidth: 600,
+      margin: "auto",
+      padding: theme.spacing(4),
+      marginTop: theme.spacing(5)
     },
     title: {
       margin: `${theme.spacing(4)}px 0 ${theme.spacing(2)}px`,
