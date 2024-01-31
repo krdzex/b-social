@@ -8,6 +8,7 @@ import passport from "passport";
 import passportStrategy from "./config/passport.config";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import { connectProducer } from "./kafkaProducer";
 
 const app = express();
 
@@ -27,6 +28,7 @@ app.use(jsonResponseMiddleware);
 app.use(passport.initialize());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+connectProducer().catch(console.error);
 
 app.use("/", userRouter);
 app.use("/", postRouter);

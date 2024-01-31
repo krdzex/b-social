@@ -38,7 +38,6 @@ export class CommentService {
       userId
     );
 
-    console.log(createCommentResult);
     return createCommentResult;
   }
 

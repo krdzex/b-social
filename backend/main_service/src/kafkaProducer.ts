@@ -1,31 +1,34 @@
-import { Kafka, Producer, ProducerRecord } from "kafkajs";
+import { Kafka, Partitioners } from "kafkajs";
 
-class KafkaProducer {
-  private producer: Producer;
+const kafka = new Kafka({
+  clientId: "comment-service",
+  brokers: ["localhost:9092", "kafka:9092"],
+});
 
-  constructor() {
-    this.producer = new Kafka({
-      clientId: "api-service",
-      brokers: ["kafka:9092"],
-    }).producer();
-  }
+const producer = kafka.producer({
+  createPartitioner: Partitioners.LegacyPartitioner,
+});
 
-  async connect(): Promise<void> {
-    await this.producer.connect();
-  }
-
-  async disconnect(): Promise<void> {
-    await this.producer.disconnect();
-  }
-
-  async publish(topic: string, message: string): Promise<void> {
-    const kafkaMessage: ProducerRecord = {
-      topic,
-      messages: [{ value: message }],
-    };
-
-    await this.producer.send(kafkaMessage);
-  }
+export async function connectProducer() {
+  await producer.connect();
+  console.log("Producer connected");
 }
 
-export { KafkaProducer };
+export async function disconnectFromKafka() {
+  await producer.disconnect();
+  console.log("Producer disconnected");
+}
+
+const topics = ["comment-created"] as const;
+
+export async function sendMessage(
+  topic: (typeof topics)[number],
+  message: any
+) {
+    const messageString = JSON.stringify(message);
+    const messageBuffer = Buffer.from(messageString);
+  return producer.send({
+    topic,
+    messages: [{ value: messageBuffer }],
+  });
+}
