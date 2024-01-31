@@ -28,11 +28,12 @@ app.use(jsonResponseMiddleware);
 app.use(passport.initialize());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
 connectProducer().catch(console.error);
 
-app.use("/", userRouter);
-app.use("/", postRouter);
-app.use("/", commentRouter);
+app.use("/api/", userRouter);
+app.use("/api/", postRouter);
+app.use("/api/", commentRouter);
 
 app.use(errorHandler);
 

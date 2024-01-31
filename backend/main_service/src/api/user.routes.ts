@@ -10,7 +10,7 @@ const router = express.Router();
 export const userService = new UserService(new UserRepository());
 
 router.post(
-  "/register",
+  "/users/register",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { errors, input } = await RequestValidator(
@@ -34,7 +34,7 @@ router.post(
 );
 
 router.post(
-  "/signin",
+  "/users/signin",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const result = await userService.signIn(req.body);
@@ -56,7 +56,7 @@ router.post(
 );
 
 router.get(
-  "/user/:userId",
+  "/users/:userId",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const userId = Number(req.params.userId);
@@ -71,7 +71,7 @@ router.get(
 );
 
 router.post(
-  "/users/follows/:followingId",
+  "/users/follow/:followingId",
   authGuard,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -88,7 +88,7 @@ router.post(
 );
 
 router.delete(
-  "/users/follows/:followingId",
+  "/users/follow/:followingId",
   authGuard,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -105,7 +105,7 @@ router.delete(
 );
 
 router.get(
-  "/user/:userId/following",
+  "/users/:userId/followings",
   authGuard,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -121,7 +121,7 @@ router.get(
 );
 
 router.get(
-  "/user/:userId/followers",
+  "/users/:userId/followers",
   authGuard,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -151,7 +151,7 @@ router.get(
 );
 
 router.get(
-  "/user/:followingId/followStatus",
+  "/users/:followingId/follow-status",
   authGuard,
   async (req: Request, res: Response, next: NextFunction) => {
     try {

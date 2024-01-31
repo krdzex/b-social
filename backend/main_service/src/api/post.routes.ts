@@ -14,7 +14,7 @@ export const postService = new PostService(
 );
 
 router.post(
-  "/post",
+  "/posts",
   authGuard,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -42,7 +42,7 @@ router.post(
 );
 
 router.get(
-  "/post/feed/:userId",
+  "/posts/feed/:userId",
   authGuard,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -58,7 +58,7 @@ router.get(
 );
 
 router.delete(
-  "/post/:postId",
+  "/posts/:postId",
   authGuard,
   async (req: Request, res: Response, next: NextFunction) => {
     try {

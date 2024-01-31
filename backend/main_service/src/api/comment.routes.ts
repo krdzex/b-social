@@ -16,7 +16,7 @@ export const commentService = new CommentService(
 );
 
 router.post(
-  "/post/:postId/comments",
+  "/posts/:postId/comments",
   authGuard,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -49,7 +49,7 @@ router.post(
 );
 
 router.get(
-  "/post/:postId/comments",
+  "/posts/:postId/comments",
   authGuard,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
