@@ -3,6 +3,7 @@ import { CreatePostDTO, CreatePostRequest } from "../dto/post.dto";
 import { ICommentRepository } from "../interface/commentRepository.interface";
 import { IPostRepository } from "../interface/postRepository.interface";
 import { IUserRepository } from "../interface/userRepository.interface";
+import { sendMessage } from "../kafkaProducer";
 import HttpError from "../utils/HttpError";
 
 export class CommentService {
@@ -37,6 +38,17 @@ export class CommentService {
       postId,
       userId
     );
+
+    sendMessage("comment-created", {
+      senderUsername: user.username,
+      senderEmail: user.email,
+      senderId: user.id,
+      timestamp: createCommentResult.createdAt,
+      postId: post.id,
+      postAuthorId: post.userId,
+      commentId: createCommentResult.id,
+      commentContent: createCommentResult.text,
+    });
 
     return createCommentResult;
   }

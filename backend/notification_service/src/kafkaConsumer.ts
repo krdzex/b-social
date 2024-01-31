@@ -27,12 +27,15 @@ export async function connectConsumer() {
   });
 
   await consumer.run({
-    eachMessage: async ({ topic, partition, message }) => {
+    eachMessage: async ({ message }) => {
       if (!message || !message.value) {
         return;
       }
-      
-      ioInstance.emit("newComment", { test: "aa" });
+      const data = JSON.parse(message.value.toString());
+
+      ioInstance.to(`room-${data.postAuthorId}`).emit("newComment", {
+        message: `User: ${data.senderUsername} - commented your post`,
+      });
     },
   });
 }

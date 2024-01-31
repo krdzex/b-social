@@ -6,7 +6,6 @@ import { CommentService } from "../services/comment.service";
 import { RequestValidator } from "../utils/requestValidator";
 import { CreateCommentRequest } from "../dto/comment.dto";
 import { CommentRepository } from "../repository/comment.repository";
-import { sendMessage } from "../kafkaProducer";
 
 const router = express.Router();
 
@@ -41,8 +40,6 @@ router.post(
         postId,
         userId
       );
-
-      sendMessage("comment-created", createCommentResult);
 
       return res.jsonSuccess({ status: 201, data: createCommentResult });
     } catch (error) {
