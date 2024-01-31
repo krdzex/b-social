@@ -1,13 +1,13 @@
 import baseUrl from "../config";
 
-const create = async (credentials, post) => {
+const create = async (jwtToken, post) => {
   try {
     return fetch(`${baseUrl}/post`, {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        Authorization: "Bearer " + credentials.t,
+        Authorization: "Bearer " + jwtToken,
       },
       body: JSON.stringify(post),
     })
@@ -18,7 +18,7 @@ const create = async (credentials, post) => {
   }
 };
 
-const listNewsFeed = async (userId, credentials, signal) => {
+const listNewsFeed = async (userId, jwtToken, signal) => {
   try {
     let response = await fetch(`${baseUrl}/post/feed/` + userId, {
       method: "GET",
@@ -26,7 +26,7 @@ const listNewsFeed = async (userId, credentials, signal) => {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        Authorization: "Bearer " + credentials.t,
+        Authorization: "Bearer " + jwtToken,
       },
     });
     return await response.json();
@@ -35,14 +35,14 @@ const listNewsFeed = async (userId, credentials, signal) => {
   }
 };
 
-const comment = async (credentials, postId, comment) => {
+const comment = async (jwtToken, postId, comment) => {
   try {
     let response = await fetch(`${baseUrl}/post/${postId}/comments`, {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        Authorization: "Bearer " + credentials.t,
+        Authorization: "Bearer " + jwtToken,
       },
       body: JSON.stringify(comment),
     });
@@ -52,14 +52,14 @@ const comment = async (credentials, postId, comment) => {
   }
 };
 
-const getComments = async (credentials, postId) => {
+const getComments = async (jwtToken, postId) => {
   try {
     let response = await fetch(`${baseUrl}/post/${postId}/comments`, {
       method: "GET",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        Authorization: "Bearer " + credentials.t,
+        Authorization: "Bearer " + jwtToken,
       },
     });
     return await response.json();
@@ -68,14 +68,14 @@ const getComments = async (credentials, postId) => {
   }
 };
 
-const deleteComment = async (credentials, commentId) => {
+const deleteComment = async (jwtToken, commentId) => {
   try {
     let response = await fetch(`${baseUrl}/comments/${commentId}`, {
       method: "DELETE",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        Authorization: "Bearer " + credentials.t,
+        Authorization: "Bearer " + jwtToken,
       },
     });
     return await response.json();

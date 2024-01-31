@@ -11,14 +11,14 @@ export default function FollowerGrid() {
   const { userId } = useParams();
 
   useEffect(() => {
-    getFollowers(userId, { t: jwt.token }).then((result) => {
+    getFollowers(userId, jwt.token).then((result) => {
       if (result.error) {
         console.log(result.error);
       } else {
         setFollowers(result.data);
       }
     });
-  }, [userId]);
+  }, [userId, jwt.token]);
 
   return <BaseFollowGrid people={followers} />;
 }

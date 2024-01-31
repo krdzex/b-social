@@ -22,7 +22,7 @@ const Comments = (props) => {
       var commentToAdd = {
         text: text,
       };
-      comment({ t: jwt.token }, props.postId, commentToAdd).then((result) => {
+      comment(jwt.token, props.postId, commentToAdd).then((result) => {
         if (result.error) {
           console.log(result.error);
         } else {

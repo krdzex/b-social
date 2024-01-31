@@ -1,35 +1,26 @@
 import React from "react";
 import auth from "./../auth/auth-helper";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { AppBar, Button, IconButton, Toolbar, Typography } from "@mui/material";
-import HomeIcon from '@mui/icons-material/Home';
+import { AppBar, Button, Toolbar, Typography } from "@mui/material";
 
-const isActive = (location, path) => location.pathname === path ? { color: "#ff4081" } : { color: "#ffffff" };
+const isActive = (location, path) =>
+  location.pathname === path ? { color: "#ff4081" } : { color: "#ffffff" };
 
 const Menu = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
   const signout = () => {
-    auth.signout(() => {
-      navigate("/");
-    });
+    auth.signout();
+    navigate("/signin");
   };
 
   return (
     <AppBar position="static">
       <Toolbar>
         <Typography variant="h6" color="inherit">
-          Membership Application
+          bSocial
         </Typography>
-        <Link to="/">
-          <IconButton aria-label="Home" style={isActive(location, "/")}>
-            <HomeIcon />
-          </IconButton>
-        </Link>
-        <Link to="/users">
-          <Button style={isActive(location, "/users")}>Users</Button>
-        </Link>
         {!auth.isAuthenticated() && (
           <span>
             <Link to={"/signup"}>
@@ -42,9 +33,15 @@ const Menu = () => {
         )}
         {auth.isAuthenticated() && (
           <span>
+            <Link to="/users">
+              <Button style={isActive(location, "/users")}>Users</Button>
+            </Link>
             <Link to={"/user/" + auth.isAuthenticated().user.id}>
               <Button
-                style={isActive(location, "/user/" + auth.isAuthenticated().user.id)}
+                style={isActive(
+                  location,
+                  "/user/" + auth.isAuthenticated().user.id
+                )}
               >
                 My Profile
               </Button>

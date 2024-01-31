@@ -33,7 +33,7 @@ const NewsFeed = () => {
     return function cleanup() {
       aborController.abort();
     };
-  }, [userId]);
+  }, [userId, jwt.token]);
 
   const removePost = (postId) => {
     setPosts(posts.filter((post) => post.id !== postId));

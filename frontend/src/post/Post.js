@@ -21,14 +21,14 @@ const Post = (props) => {
   const [comments, setComments] = useState([]);
 
   useEffect(() => {
-    getComments({ t: jwt.token }, props.post.id).then((result) => {
+    getComments(jwt.token, props.post.id).then((result) => {
       if (result.error) {
         console.log(result.error);
       } else {
         setComments(result.data);
       }
     });
-  }, [props.post.id]);
+  }, [props.post.id, jwt.token]);
 
   const removeComment = (idToRemove) => {
     setComments(comments.filter((comment) => comment.id !== idToRemove));

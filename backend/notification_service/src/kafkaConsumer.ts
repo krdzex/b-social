@@ -1,4 +1,6 @@
 import { Kafka } from "kafkajs";
+import { Server } from "socket.io";
+import { ioInstance } from "./utils/socket";
 
 const kafka = new Kafka({
   brokers: ["localhost:9092"],
@@ -8,6 +10,12 @@ const kafka = new Kafka({
 const consumer = kafka.consumer({
   groupId: "notifications-service",
 });
+
+let io: Server;
+
+export function setSocketIOInstance(socketIO: Server) {
+  io = socketIO;
+}
 
 export async function connectConsumer() {
   await consumer.connect();
@@ -23,9 +31,8 @@ export async function connectConsumer() {
       if (!message || !message.value) {
         return;
       }
-      const data = JSON.parse(message.value.toString());
-
-      console.log(data);
+      
+      ioInstance.emit("newComment", { test: "aa" });
     },
   });
 }

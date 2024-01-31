@@ -12,12 +12,8 @@ function isAuthenticated() {
   else return false;
 }
 
-function signout(cb) {
+function signout() {
   if (typeof window !== "undefined") sessionStorage.removeItem("jwt");
-  //cb();
-  // signout().then((data) => {
-  //    document.cookie = "t=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
-  //})
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export

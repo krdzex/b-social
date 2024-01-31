@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import auth from "../auth/auth-helper";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useTheme } from "@emotion/react";
 import {
   Button,
@@ -16,7 +16,6 @@ import { signin } from "../auth/api-auth";
 export default function Signin(props) {
   const theme = useTheme();
   const navigate = useNavigate();
-  const location = useLocation();
 
   const classes = {
     card: {
@@ -48,7 +47,6 @@ export default function Signin(props) {
     email: "",
     password: "",
     error: "",
-    redirectToReferrer: false,
   });
 
   const clickSubmit = () => {
@@ -62,8 +60,9 @@ export default function Signin(props) {
         setValues({ ...values, error: data.error });
       } else {
         auth.authenticate(data.data, () => {
-          setValues({ ...values, redirectToReferrer: true });
+          setValues({ ...values });
         });
+        navigate(`/user/${data.data.user.id}`);
       }
     });
   };
@@ -71,10 +70,6 @@ export default function Signin(props) {
     setValues({ ...values, [name]: event.target.value });
   };
 
-  const { from } = location.state || { from: { pathname: "/" } };
-  if (values.redirectToReferrer) {
-    navigate(from.pathname);
-  }
   return (
     <div>
       <Card sx={classes.card}>

@@ -1,6 +1,10 @@
 import { Server } from "socket.io";
 
+let ioInstance: Server;
+
 const configureSocket = (io: Server) => {
+  ioInstance = io;
+
   io.on("connection", (socket) => {
     console.log("user connected");
 
@@ -10,4 +14,4 @@ const configureSocket = (io: Server) => {
   });
 };
 
-export { configureSocket };
+export { configureSocket, ioInstance };

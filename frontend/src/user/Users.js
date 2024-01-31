@@ -35,14 +35,14 @@ const Users = () => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    getAllUsers({ t: jwt.token }).then((result) => {
+    getAllUsers(jwt.token).then((result) => {
       if (result.error) {
         console.log(result.error);
       } else {
         setUsers(result.data);
       }
     });
-  }, []);
+  }, [jwt.token]);
 
   return (
     <div>
@@ -61,7 +61,13 @@ const Users = () => {
                     </Avatar>
                   </ListItemAvatar>
                   <ListItemText
-                    primary={item.firstName + " " + item.lastName + " - " + item.username}
+                    primary={
+                      item.firstName +
+                      " " +
+                      item.lastName +
+                      " - " +
+                      item.username
+                    }
                     secondary={"Email: " + item.email}
                   />
                   <ListItemSecondaryAction>

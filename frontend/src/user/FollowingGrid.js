@@ -18,7 +18,7 @@ export default function FollowingGrid() {
         setFollowingPeople(result.data);
       }
     });
-  }, [userId]);
+  }, [userId, jwt.token]);
 
   return <BaseFollowGrid people={followingPeople} />;
 }

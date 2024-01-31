@@ -1,18 +1,16 @@
 import {
   Avatar,
   Divider,
-  IconButton,
   List,
   ListItem,
   ListItemAvatar,
-  ListItemSecondaryAction,
   ListItemText,
   Paper,
   Typography,
   useTheme,
 } from "@mui/material";
-import React, { useState, useEffect, useId } from "react";
-import { Link, useParams } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import FollowProfileButton from "./FollowProfileButton";
 import auth from "../auth/auth-helper";
 import { useNavigate } from "react-router-dom";
@@ -54,7 +52,7 @@ export default function Profile() {
     });
 
     if (auth.isAuthenticated().user.id !== parseInt(userId)) {
-      chackIfFollowing(userId, { t: jwt.token }).then((result) => {
+      chackIfFollowing(userId, jwt.token).then((result) => {
         if (result.error) {
           console.log(result.error);
         } else {
@@ -62,7 +60,7 @@ export default function Profile() {
         }
       });
     }
-  }, [userId]);
+  }, [userId, jwt.token]);
 
   const clickFollowButton = (callApi) => {
     callApi(userId, { t: jwt.token }).then((result) => {

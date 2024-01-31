@@ -75,14 +75,14 @@ const chackIfFollowing = (userId, token) => {
     .catch((err) => console.log(err));
 };
 
-const follow = async (followId, credentials) => {
+const follow = async (followId, jwtToken) => {
   try {
     let response = await fetch(`${baseUrl}/users/follows/${followId}`, {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        Authorization: "Bearer " + credentials.t,
+        Authorization: "Bearer " + jwtToken,
       },
     });
     return await response.json();
@@ -91,14 +91,14 @@ const follow = async (followId, credentials) => {
   }
 };
 
-const unfollow = async (followId, credentials) => {
+const unfollow = async (followId, jwtToken) => {
   try {
     let response = await fetch(`${baseUrl}/users/follows/${followId}`, {
       method: "DELETE",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        Authorization: "Bearer " + credentials.t,
+        Authorization: "Bearer " + jwtToken,
       },
     });
     return await response.json();
