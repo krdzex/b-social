@@ -1,7 +1,7 @@
 import baseUrl from "../config";
 
 const create = (user) => {
-  return fetch(`${baseUrl}/register`, {
+  return fetch(`${baseUrl}/users/register`, {
     method: "POST",
     headers: { Accept: "application/json", "Content-Type": "application/json" },
     body: JSON.stringify(user),
@@ -11,7 +11,7 @@ const create = (user) => {
 };
 
 const getUserById = (params, jwtToken) => {
-  return fetch(`${baseUrl}/user/${params.userId}`, {
+  return fetch(`${baseUrl}/users/${params.userId}`, {
     method: "GET",
     headers: {
       Accept: "application/json",
@@ -24,7 +24,7 @@ const getUserById = (params, jwtToken) => {
 };
 
 const getFollowingPeople = (userId, jwtToken) => {
-  return fetch(`${baseUrl}/user/${userId}/following`, {
+  return fetch(`${baseUrl}/users/${userId}/followings`, {
     method: "GET",
     headers: {
       Accept: "application/json",
@@ -37,7 +37,7 @@ const getFollowingPeople = (userId, jwtToken) => {
 };
 
 const getFollowers = (userId, jwtToken) => {
-  return fetch(`${baseUrl}/user/${userId}/followers`, {
+  return fetch(`${baseUrl}/users/${userId}/followers`, {
     method: "GET",
     headers: {
       Accept: "application/json",
@@ -63,7 +63,7 @@ const getAllUsers = (jwtToken) => {
 };
 
 const chackIfFollowing = (userId, jwtToken) => {
-  return fetch(`${baseUrl}/user/${userId}/followStatus`, {
+  return fetch(`${baseUrl}/users/${userId}/follow-status`, {
     method: "GET",
     headers: {
       Accept: "application/json",
@@ -77,7 +77,7 @@ const chackIfFollowing = (userId, jwtToken) => {
 
 const follow = async (followId, jwtToken) => {
   try {
-    let response = await fetch(`${baseUrl}/users/follows/${followId}`, {
+    let response = await fetch(`${baseUrl}/users/follow/${followId}`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -93,7 +93,7 @@ const follow = async (followId, jwtToken) => {
 
 const unfollow = async (followId, jwtToken) => {
   try {
-    let response = await fetch(`${baseUrl}/users/follows/${followId}`, {
+    let response = await fetch(`${baseUrl}/users/follow/${followId}`, {
       method: "DELETE",
       headers: {
         Accept: "application/json",

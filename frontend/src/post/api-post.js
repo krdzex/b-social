@@ -2,7 +2,7 @@ import baseUrl from "../config";
 
 const create = async (jwtToken, post) => {
   try {
-    return fetch(`${baseUrl}/post`, {
+    return fetch(`${baseUrl}/posts`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -20,7 +20,7 @@ const create = async (jwtToken, post) => {
 
 const listNewsFeed = async (userId, jwtToken, signal) => {
   try {
-    let response = await fetch(`${baseUrl}/post/feed/` + userId, {
+    let response = await fetch(`${baseUrl}/posts/feed/` + userId, {
       method: "GET",
       signal: signal,
       headers: {
@@ -37,7 +37,7 @@ const listNewsFeed = async (userId, jwtToken, signal) => {
 
 const comment = async (jwtToken, postId, comment) => {
   try {
-    let response = await fetch(`${baseUrl}/post/${postId}/comments`, {
+    let response = await fetch(`${baseUrl}/posts/${postId}/comments`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -54,7 +54,7 @@ const comment = async (jwtToken, postId, comment) => {
 
 const getComments = async (jwtToken, postId) => {
   try {
-    let response = await fetch(`${baseUrl}/post/${postId}/comments`, {
+    let response = await fetch(`${baseUrl}/posts/${postId}/comments`, {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -86,7 +86,7 @@ const deleteComment = async (jwtToken, commentId) => {
 
 const removePost = async (postId, jwtToken) => {
   try {
-    let response = await fetch(`${baseUrl}/post/${postId}`, {
+    let response = await fetch(`${baseUrl}/posts/${postId}`, {
       method: "DELETE",
       headers: {
         Accept: "application/json",

@@ -1,7 +1,7 @@
 import baseUrl from "../config";
 
 const signin = (user) => {
-  return fetch(`${baseUrl}/signin`, {
+  return fetch(`${baseUrl}/users/signin`, {
     method: "POST",
     headers: {
       Accept: "application/json",
