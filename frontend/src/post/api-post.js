@@ -84,14 +84,14 @@ const deleteComment = async (jwtToken, commentId) => {
   }
 };
 
-const removePost = async (postId, token) => {
+const removePost = async (postId, jwtToken) => {
   try {
     let response = await fetch(`${baseUrl}/post/${postId}`, {
       method: "DELETE",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        Authorization: "Bearer " + token.t,
+        Authorization: "Bearer " + jwtToken,
       },
     });
     return await response.json();

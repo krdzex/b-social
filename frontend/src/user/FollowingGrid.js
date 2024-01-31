@@ -11,7 +11,7 @@ export default function FollowingGrid() {
   const { userId } = useParams();
 
   useEffect(() => {
-    getFollowingPeople(userId, { t: jwt.token }).then((result) => {
+    getFollowingPeople(userId, jwt.token).then((result) => {
       if (result.error) {
         console.log(result.error);
       } else {

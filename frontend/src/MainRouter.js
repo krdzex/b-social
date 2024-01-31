@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Signup from "./user/Signup";
 import Menu from "./core/Menu";
 import Signin from "./user/Signin";
 import Profile from "./user/Profile";
 import Users from "./user/Users";
+import authHelper from "./auth/auth-helper";
 
 class MainRouter extends Component {
   render() {
@@ -16,7 +17,7 @@ class MainRouter extends Component {
           <Route path="/signin" element={<Signin />} />
           <Route path="/user/:userId" element={<Profile />} />
           <Route path="/users" element={<Users />} />
-          {/* <Route
+          <Route
             path="/"
             element={
               <Navigate
@@ -27,7 +28,7 @@ class MainRouter extends Component {
                 }
               />
             }
-          /> */}
+          />
         </Routes>
       </BrowserRouter>
     );

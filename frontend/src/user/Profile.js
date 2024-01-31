@@ -63,7 +63,7 @@ export default function Profile() {
   }, [userId, jwt.token]);
 
   const clickFollowButton = (callApi) => {
-    callApi(userId, { t: jwt.token }).then((result) => {
+    callApi(userId, jwt.token).then((result) => {
       if (result.error) {
         console.log(result.error);
       } else {
@@ -105,7 +105,11 @@ export default function Profile() {
             secondary={"Joined: " + new Date(user?.createdAt).toDateString()}
           />
         </ListItem>
-        <ProfileTabs user={user} />
+        {following || auth.isAuthenticated().user.id === parseInt(userId) ? (
+          <ProfileTabs user={user} />
+        ) : (
+          <></>
+        )}
       </List>
     </Paper>
   );

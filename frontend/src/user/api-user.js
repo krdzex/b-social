@@ -10,65 +10,65 @@ const create = (user) => {
     .catch((err) => console.log(err));
 };
 
-const getUserById = (params, token) => {
+const getUserById = (params, jwtToken) => {
   return fetch(`${baseUrl}/user/${params.userId}`, {
     method: "GET",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
+      Authorization: "Bearer " + jwtToken,
     },
   })
     .then((response) => response.json())
     .catch((err) => console.log(err));
 };
 
-const getFollowingPeople = (userId, token) => {
+const getFollowingPeople = (userId, jwtToken) => {
   return fetch(`${baseUrl}/user/${userId}/following`, {
     method: "GET",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      Authorization: "Bearer " + token.t,
+      Authorization: "Bearer " + jwtToken,
     },
   })
     .then((response) => response.json())
     .catch((err) => console.log(err));
 };
 
-const getFollowers = (userId, token) => {
+const getFollowers = (userId, jwtToken) => {
   return fetch(`${baseUrl}/user/${userId}/followers`, {
     method: "GET",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      Authorization: "Bearer " + token.t,
+      Authorization: "Bearer " + jwtToken,
     },
   })
     .then((response) => response.json())
     .catch((err) => console.log(err));
 };
 
-const getAllUsers = (token) => {
+const getAllUsers = (jwtToken) => {
   return fetch(`${baseUrl}/users`, {
     method: "GET",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      Authorization: "Bearer " + token.t,
+      Authorization: "Bearer " + jwtToken,
     },
   })
     .then((response) => response.json())
     .catch((err) => console.log(err));
 };
 
-const chackIfFollowing = (userId, token) => {
+const chackIfFollowing = (userId, jwtToken) => {
   return fetch(`${baseUrl}/user/${userId}/followStatus`, {
     method: "GET",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      Authorization: "Bearer " + token.t,
+      Authorization: "Bearer " + jwtToken,
     },
   })
     .then((response) => response.json())

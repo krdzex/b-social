@@ -38,7 +38,7 @@ const Comments = (props) => {
   };
 
   const deleteCommentClick = (comment) => (event) => {
-    deleteComment({ t: jwt.token }, comment.id).then((data) => {
+    deleteComment(jwt.token, comment.id).then((data) => {
       if (data.error) {
         console.log(data.error);
       } else {

@@ -41,7 +41,7 @@ const Post = (props) => {
   };
 
   const deletePost = () => {
-    removePost(props.post.id, { t: jwt.token }).then((data) => {
+    removePost(props.post.id, jwt.token).then((data) => {
       if (data.error) {
         console.log(data.error);
       } else {

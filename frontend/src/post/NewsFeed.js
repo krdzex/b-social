@@ -22,7 +22,7 @@ const NewsFeed = () => {
     const aborController = new AbortController();
     const signal = aborController.signal;
 
-    listNewsFeed(userId, { t: jwt.token }, signal).then((result) => {
+    listNewsFeed(userId, jwt.token, signal).then((result) => {
       if (result.error) {
         console.log(result.error);
       } else {
