@@ -110,8 +110,12 @@ router.get(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const userId = Number(req.params.userId);
+      const loggedUserId = req.user.id;
 
-      var followingUsers = await userService.getFollowingPeople(userId);
+      var followingUsers = await userService.getFollowingPeople(
+        userId,
+        loggedUserId
+      );
 
       return res.jsonSuccess({ data: followingUsers });
     } catch (error) {
@@ -126,8 +130,9 @@ router.get(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const userId = Number(req.params.userId);
+      const loggedUserId = req.user.id;
 
-      var followers = await userService.getFollowers(userId);
+      var followers = await userService.getFollowers(userId, loggedUserId);
 
       return res.jsonSuccess({ data: followers });
     } catch (error) {

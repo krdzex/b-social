@@ -1,5 +1,4 @@
 import { CreateCommentRequest } from "../dto/comment.dto";
-import { CreatePostDTO, CreatePostRequest } from "../dto/post.dto";
 import { ICommentRepository } from "../interface/commentRepository.interface";
 import { IPostRepository } from "../interface/postRepository.interface";
 import { IUserRepository } from "../interface/userRepository.interface";
@@ -20,7 +19,11 @@ export class CommentService {
     this._commentRepository = commentRepository;
   }
 
-  async create(input: CreateCommentRequest, postId: number, userId: number) {
+  async createComment(
+    input: CreateCommentRequest,
+    postId: number,
+    userId: number
+  ) {
     var user = await this._userRepository.findById(userId);
 
     if (!user) {
@@ -53,11 +56,22 @@ export class CommentService {
     return createCommentResult;
   }
 
-  async getCommentsForPost(postId: number) {
+  async getCommentsForPost(postId: number, loggedUserId: number) {
     var post = await this._postRepository.getById(postId);
 
     if (!post) {
       throw HttpError.NotFound("Post not found");
+    }
+
+    const checkIfFollowing = await this._userRepository.followExist(
+      loggedUserId,
+      post.userId
+    );
+
+    if (!checkIfFollowing && post.userId !== loggedUserId) {
+      throw HttpError.BadRequest(
+        "You need to follow this user first to get comments of this post"
+      );
     }
 
     var comments = await this._commentRepository.getCommentsForPost(postId);
@@ -76,6 +90,6 @@ export class CommentService {
       throw HttpError.BadRequest("You are not author of comment");
     }
 
-    await this._commentRepository.deleteComment(commentId);
+    await this._commentRepository.delete(commentId);
   }
 }

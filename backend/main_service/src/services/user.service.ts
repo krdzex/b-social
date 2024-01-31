@@ -41,7 +41,7 @@ export class UserService {
   async signIn(data: SignInRequest): Promise<{ token: string; user: User }> {
     const user = await this._userRepository.findByEmail(data.email);
     if (!user) {
-      throw HttpError.BadRequest("User not found");
+      throw HttpError.BadRequest("Invalid password or email");
     }
 
     const passwordMatch = await bcrypt.compare(
@@ -50,7 +50,7 @@ export class UserService {
     );
 
     if (!passwordMatch) {
-      throw HttpError.BadRequest("Invalid password");
+      throw HttpError.BadRequest("Invalid password or email");
     }
 
     const token = jwt.sign({ user: { id: user.id } }, process.env.JWT_SECRET!, {
@@ -63,7 +63,20 @@ export class UserService {
   async followUser(userId: number, followingId: number) {
     const follower = await this._userRepository.findById(followingId);
     if (!follower) {
-      throw HttpError.BadRequest("User not found");
+      throw HttpError.NotFound("Person you want to follow is not found");
+    }
+
+    if (userId === followingId) {
+      throw HttpError.BadRequest("You cant follow yourself");
+    }
+
+    const checkIfFollowing = await this._userRepository.followExist(
+      userId,
+      followingId
+    );
+
+    if (checkIfFollowing) {
+      throw HttpError.BadRequest("You already follow this user");
     }
 
     await this._userRepository.follow(userId, followingId);
@@ -72,7 +85,16 @@ export class UserService {
   async unfollowUser(userId: number, followingId: number) {
     const follower = await this._userRepository.findById(followingId);
     if (!follower) {
-      throw HttpError.BadRequest("User not found");
+      throw HttpError.NotFound("Person you want to unfollow is not found");
+    }
+
+    const checkIfFollowing = await this._userRepository.followExist(
+      userId,
+      followingId
+    );
+
+    if (!checkIfFollowing) {
+      throw HttpError.BadRequest("You dont follow this user");
     }
 
     await this._userRepository.unfollow(userId, followingId);
@@ -88,11 +110,22 @@ export class UserService {
     return user;
   }
 
-  async getFollowingPeople(userId: number) {
+  async getFollowingPeople(userId: number, loggedUserId: number) {
     const user = await this._userRepository.findById(userId);
 
     if (!user) {
       throw HttpError.NotFound("There is no user with this id");
+    }
+
+    const checkIfFollowing = await this._userRepository.followExist(
+      loggedUserId,
+      userId
+    );
+
+    if (!checkIfFollowing && userId !== loggedUserId) {
+      throw HttpError.BadRequest(
+        "You need to follow this user first to see his followings"
+      );
     }
 
     const followingUsers = await this._userRepository.getFollowingPeople(
@@ -102,11 +135,22 @@ export class UserService {
     return followingUsers;
   }
 
-  async getFollowers(userId: number) {
+  async getFollowers(userId: number, loggedUserId: number) {
     const user = await this._userRepository.findById(userId);
 
     if (!user) {
       throw HttpError.NotFound("There is no user with this id");
+    }
+
+    const checkIfFollowing = await this._userRepository.followExist(
+      loggedUserId,
+      userId
+    );
+
+    if (!checkIfFollowing && userId !== loggedUserId) {
+      throw HttpError.BadRequest(
+        "You need to follow this user first to see his followers"
+      );
     }
 
     const followers = await this._userRepository.getFollowers(userId);

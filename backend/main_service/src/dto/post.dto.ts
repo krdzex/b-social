@@ -7,13 +7,6 @@ export class CreatePostRequest {
   text: string;
 }
 
-export class CreatePostDTO {
-  text: string;
-  constructor(data: { text: string }) {
-    this.text = data.text;
-  }
-}
-
 export class GetPostDto {
   id: number;
   text: string;

@@ -1,7 +1,6 @@
 import { Post, PrismaClient } from "@prisma/client";
 import { IPostRepository } from "../interface/postRepository.interface";
-import { CreatePostDTO, GetPostDto } from "../dto/post.dto";
-import { GetUserDto } from "../dto/user.dto";
+import { GetPostDto } from "../dto/post.dto";
 
 export class PostRepository implements IPostRepository {
   _prisma: PrismaClient;
@@ -52,11 +51,11 @@ export class PostRepository implements IPostRepository {
     });
   }
 
-  async create(data: CreatePostDTO, user: GetUserDto): Promise<GetPostDto> {
+  async create(text: string, userId: number): Promise<GetPostDto> {
     return this._prisma.post.create({
       data: {
-        text: data.text,
-        userId: user.id,
+        text: text,
+        userId: userId,
       },
       select: {
         id: true,

@@ -1,5 +1,4 @@
 import { PrismaClient } from "@prisma/client";
-import { Comment } from "../modals/comment.modal";
 import { CommentForPostDto, CreateCommentRequest } from "../dto/comment.dto";
 import { ICommentRepository } from "../interface/commentRepository.interface";
 
@@ -30,7 +29,7 @@ export class CommentRepository implements ICommentRepository {
     });
   }
 
-  async deleteComment(commentId: number): Promise<void> {
+  async delete(commentId: number): Promise<void> {
     await this._prisma.comment.delete({
       where: {
         id: commentId,

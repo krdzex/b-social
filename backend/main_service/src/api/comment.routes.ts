@@ -35,7 +35,7 @@ router.post(
       const postId = Number(req.params.postId);
       const userId = req.user.id;
 
-      var createCommentResult = await commentService.create(
+      var createCommentResult = await commentService.createComment(
         input,
         postId,
         userId
@@ -54,8 +54,12 @@ router.get(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const postId = Number(req.params.postId);
+      const loggedUserId = req.user.id;
 
-      var comments = await commentService.getCommentsForPost(postId);
+      var comments = await commentService.getCommentsForPost(
+        postId,
+        loggedUserId
+      );
 
       return res.jsonSuccess({ data: comments });
     } catch (error) {

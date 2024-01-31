@@ -1,4 +1,4 @@
-import { CreatePostDTO, CreatePostRequest } from "../dto/post.dto";
+import { CreatePostRequest } from "../dto/post.dto";
 import { IPostRepository } from "../interface/postRepository.interface";
 import { IUserRepository } from "../interface/userRepository.interface";
 import HttpError from "../utils/HttpError";
@@ -15,26 +15,36 @@ export class PostService {
     this._userRepository = userRepository;
   }
 
-  async create(data: CreatePostRequest, userId: number) {
+  async createPost(data: CreatePostRequest, userId: number) {
     var user = await this._userRepository.findById(userId);
 
     if (!user) {
       throw HttpError.NotFound("User not found");
     }
 
-    const createPostDto = new CreatePostDTO({
-      text: data.text,
-    });
-
-    var createUserResult = await this._postRepository.create(
-      createPostDto,
-      user
-    );
+    var createUserResult = await this._postRepository.create(data.text, userId);
 
     return createUserResult;
   }
 
-  async getPostFeed(userId: number) {
+  async getPostFeed(userId: number, loggedUserId: number) {
+    var user = await this._userRepository.findById(userId);
+
+    if (!user) {
+      throw HttpError.NotFound("User not found");
+    }
+
+    const checkIfFollowing = await this._userRepository.followExist(
+      loggedUserId,
+      userId
+    );
+
+    if (!checkIfFollowing && userId !== loggedUserId) {
+      throw HttpError.BadRequest(
+        "You need to follow this user first to see this users posts"
+      );
+    }
+
     var posts = await this._postRepository.getFeed(userId);
 
     return posts;

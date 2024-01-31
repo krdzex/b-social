@@ -32,7 +32,7 @@ router.post(
         });
       }
 
-      var postResult = await postService.create(input, userId);
+      var postResult = await postService.createPost(input, userId);
 
       return res.jsonSuccess({ status: 201, data: postResult });
     } catch (error) {
@@ -47,8 +47,9 @@ router.get(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const userId = Number(req.params.userId);
+      const loggedUserId = req.user.id;
 
-      var posts = await postService.getPostFeed(userId);
+      var posts = await postService.getPostFeed(userId,loggedUserId);
 
       return res.jsonSuccess({ data: posts });
     } catch (error) {
