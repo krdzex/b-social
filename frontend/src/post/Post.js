@@ -32,12 +32,14 @@ const Post = (props) => {
 
   const removeComment = (idToRemove) => {
     setComments(comments.filter((comment) => comment.id !== idToRemove));
+    props.decreaseCommentCount(props.post.id);
   };
 
   const addComment = (comment) => {
     const updatedComments = [...comments];
     updatedComments.unshift(comment);
     setComments(updatedComments);
+    props.increaseCommentCount(props.post.id);
   };
 
   const deletePost = () => {

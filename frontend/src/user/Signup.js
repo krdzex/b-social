@@ -10,7 +10,6 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-  Icon,
   TextField,
   Typography,
   useTheme,

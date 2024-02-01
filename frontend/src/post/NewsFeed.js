@@ -39,6 +39,40 @@ const NewsFeed = () => {
     setPosts(posts.filter((post) => post.id !== postId));
   };
 
+  const increaseCommentCount = (postId) => {
+    setPosts((prevPosts) => {
+      return prevPosts.map((post) => {
+        if (post.id === postId) {
+          return {
+            ...post,
+            _count: {
+              ...post._count,
+              comments: post._count.comments + 1,
+            },
+          };
+        }
+        return post;
+      });
+    });
+  };
+
+  const decreaseCommentCount = (postId) => {
+    setPosts((prevPosts) => {
+      return prevPosts.map((post) => {
+        if (post.id === postId) {
+          return {
+            ...post,
+            _count: {
+              ...post._count,
+              comments: post._count.comments - 1,
+            },
+          };
+        }
+        return post;
+      });
+    });
+  };
+
   return (
     <Card>
       <Typography type="title">NewsFeed</Typography>
@@ -49,7 +83,12 @@ const NewsFeed = () => {
           <Divider />
         </>
       )}
-      <PostList posts={posts} removeUpdate={removePost} />
+      <PostList
+        posts={posts}
+        removeUpdate={removePost}
+        increaseCommentCount={increaseCommentCount}
+        decreaseCommentCount={decreaseCommentCount}
+      />
     </Card>
   );
 };
