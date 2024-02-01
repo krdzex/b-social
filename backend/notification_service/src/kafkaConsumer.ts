@@ -33,9 +33,11 @@ export async function connectConsumer() {
       }
       const data = JSON.parse(message.value.toString());
 
-      ioInstance.to(`room-${data.postAuthorId}`).emit("newComment", {
-        message: `User: ${data.senderUsername} - commented your post`,
-      });
+      if(data.postAuthorId !== data.senderId){
+        ioInstance.to(`room-${data.postAuthorId}`).emit("newComment", {
+          message: `User: ${data.senderUsername} - commented your post`,
+        });
+      }
     },
   });
 }
