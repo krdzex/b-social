@@ -1,6 +1,7 @@
 import { CreatePostRequest } from "../dto/post.dto";
 import { IPostRepository } from "../interface/postRepository.interface";
 import { IUserRepository } from "../interface/userRepository.interface";
+import { sendMessage } from "../kafkaProducer";
 import HttpError from "../utils/HttpError";
 
 export class PostService {
@@ -22,9 +23,18 @@ export class PostService {
       throw HttpError.NotFound("User not found");
     }
 
-    var createUserResult = await this._postRepository.create(data.text, userId);
+    var createPostResult = await this._postRepository.create(data.text, userId);
 
-    return createUserResult;
+    sendMessage("post-created", {
+      username: user.username,
+      email: user.email,
+      userId: user.id,
+      createdAt: createPostResult.createdAt,
+      postId: createPostResult.id,
+      content: createPostResult.text,
+    });
+
+    return createPostResult;
   }
 
   async getPostFeed(userId: number, loggedUserId: number) {

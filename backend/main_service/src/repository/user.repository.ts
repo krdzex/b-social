@@ -115,7 +115,7 @@ export class UserRepository implements IUserRepository {
         lastName: data.lastName,
         username: data.username,
         email: data.email,
-        password: data.hashedPassword,
+        password: data.hashedPassword
       },
     });
   }

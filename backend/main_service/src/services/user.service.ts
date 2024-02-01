@@ -8,6 +8,7 @@ import { IUserRepository } from "../interface/userRepository.interface";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { User } from "../modals/user.modal";
+import { sendMessage } from "../kafkaProducer";
 
 export class UserService {
   private _userRepository: IUserRepository;
@@ -42,6 +43,15 @@ export class UserService {
     });
 
     var createUserResult = await this._userRepository.create(createUserDto);
+
+    sendMessage("user-created", {
+      id: createUserResult.id,
+      firstName: createUserResult.firstName,
+      lastName: createUserResult.lastName,
+      username: createUserResult.username,
+      email: createUserResult.email,
+      createdAt: createUserResult.createdAt,
+    });
 
     return createUserResult;
   }

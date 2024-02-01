@@ -1,7 +1,7 @@
 import { Kafka, Partitioners } from "kafkajs";
 
 const kafka = new Kafka({
-  clientId: "comment-service",
+  clientId: "producer-service",
   brokers: ["kafka:9093"],
 });
 
@@ -19,14 +19,14 @@ export async function disconnectFromKafka() {
   console.log("Producer disconnected");
 }
 
-const topics = ["comment-created"] as const;
+const topics = ["comment-created", "user-created", "post-created"] as const;
 
 export async function sendMessage(
   topic: (typeof topics)[number],
   message: any
 ) {
-    const messageString = JSON.stringify(message);
-    const messageBuffer = Buffer.from(messageString);
+  const messageString = JSON.stringify(message);
+  const messageBuffer = Buffer.from(messageString);
   return producer.send({
     topic,
     messages: [{ value: messageBuffer }],
