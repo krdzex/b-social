@@ -67,37 +67,31 @@ export default function Signup() {
     let isValid = true;
     const newErrors = {};
 
-    // Validate firstName
     if (values.firstName.trim() === "") {
       newErrors.firstName = "First Name is required";
       isValid = false;
     }
 
-    // Validate lastName
     if (values.lastName.trim() === "") {
       newErrors.lastName = "Last Name is required";
       isValid = false;
     }
 
-    // Validate username
     if (values.username.trim() === "") {
       newErrors.username = "Username is required";
       isValid = false;
     }
 
-    // Validate email
     if (values.email.trim() === "") {
       newErrors.email = "Email is required";
       isValid = false;
     }
 
-    // Validate password
     if (values.password.trim() === "") {
       newErrors.password = "Password is required";
       isValid = false;
     }
 
-    // Validate confirmPassword
     if (
       values.confirmPassword.trim() === "" ||
       values.confirmPassword !== values.password
@@ -122,7 +116,7 @@ export default function Signup() {
       };
 
       create(user).then((data) => {
-        if (data.error) setValues({ ...values, error: data.error });
+        if (data.error) setValues({ ...values, error: data.msg });
         else setValues({ ...values, error: "", open: true });
       });
     }
@@ -206,9 +200,6 @@ export default function Signup() {
           <br />
           {values.error && (
             <Typography component="p" color="error">
-              <Icon color="error" sx={classes.error}>
-                error
-              </Icon>
               {values.error}
             </Typography>
           )}

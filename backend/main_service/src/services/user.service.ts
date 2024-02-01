@@ -17,10 +17,18 @@ export class UserService {
   }
 
   async createUser(data: CreateUserRequest) {
-    const user = await this._userRepository.findByEmail(data.email);
+    const userWithEmail = await this._userRepository.findByEmail(data.email);
 
-    if (user) {
-      throw HttpError.BadRequest("User already exist");
+    if (userWithEmail) {
+      throw HttpError.BadRequest("Email is already taken");
+    }
+
+    const userWithUsername = await this._userRepository.findByUsername(
+      data.username
+    );
+
+    if (userWithUsername) {
+      throw HttpError.BadRequest("Username is already taken");
     }
 
     const hashedPassword = await bcrypt.hash(data.password, 10);
