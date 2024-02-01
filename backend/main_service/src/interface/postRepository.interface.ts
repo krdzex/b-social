@@ -1,5 +1,5 @@
-import { Post } from "@prisma/client";
 import { GetPostDto } from "../dto/post.dto";
+import { Post } from "../modals/post.modal";
 
 export interface IPostRepository {
   create(text: string, userId: number): Promise<GetPostDto>;

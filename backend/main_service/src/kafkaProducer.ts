@@ -2,7 +2,7 @@ import { Kafka, Partitioners } from "kafkajs";
 
 const kafka = new Kafka({
   clientId: "comment-service",
-  brokers: ["localhost:9092", "kafka:9092"],
+  brokers: ["kafka:9093"],
 });
 
 const producer = kafka.producer({

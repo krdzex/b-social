@@ -1,6 +1,7 @@
-import { Post, PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import { IPostRepository } from "../interface/postRepository.interface";
 import { GetPostDto } from "../dto/post.dto";
+import { Post } from "../modals/post.modal";
 
 export class PostRepository implements IPostRepository {
   _prisma: PrismaClient;

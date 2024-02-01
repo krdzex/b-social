@@ -3,7 +3,7 @@ import { Server } from "socket.io";
 import { ioInstance } from "./utils/socket";
 
 const kafka = new Kafka({
-  brokers: ["localhost:9092"],
+  brokers: ["kafka:9093"],
   clientId: "notifications-service",
 });
 
