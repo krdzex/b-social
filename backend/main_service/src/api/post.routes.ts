@@ -49,7 +49,10 @@ router.get(
       const userId = Number(req.params.userId);
       const loggedUserId = req.user.id;
 
-      var posts = await postService.getPostFeed(userId,loggedUserId);
+      const page = Number(req.query.page);
+      const take = Number(req.query.take);
+
+      var posts = await postService.getPostFeed(userId,loggedUserId, {page,take});
 
       return res.jsonSuccess({ data: posts });
     } catch (error) {

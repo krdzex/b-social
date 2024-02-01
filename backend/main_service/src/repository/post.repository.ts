@@ -2,6 +2,9 @@ import { PrismaClient } from "@prisma/client";
 import { IPostRepository } from "../interface/postRepository.interface";
 import { GetPostDto } from "../dto/post.dto";
 import { Post } from "../modals/post.modal";
+import { PaginateOptions } from "../dto/pagination/pagination-options";
+import { PaginatedResult } from "../dto/pagination/pagination-result";
+import { paginate } from "../dto/pagination/paginator";
 
 export class PostRepository implements IPostRepository {
   _prisma: PrismaClient;
@@ -25,31 +28,32 @@ export class PostRepository implements IPostRepository {
     });
   }
 
-  async getFeed(userId: number): Promise<GetPostDto[]> {
-    return await this._prisma.post.findMany({
-      select: {
-        id: true,
-        text: true,
-        createdAt: true,
-        user: {
-          select: {
-            id: true,
-            firstName: true,
-            lastName: true,
-            username: true,
-          },
-        },
-        _count: {
-          select: { comments: true },
+  async getFeed(
+    userId: number,
+    paginationOptions: PaginateOptions
+  ): Promise<PaginatedResult<GetPostDto[]>> {
+    const select = {
+      id: true,
+      text: true,
+      createdAt: true,
+      user: {
+        select: {
+          id: true,
+          firstName: true,
+          lastName: true,
+          username: true,
         },
       },
-      where: {
-        userId,
+      _count: {
+        select: { comments: true },
       },
-      orderBy: {
-        createdAt: "desc",
-      },
-    });
+    };
+
+    const where = {
+      userId: userId,
+    };
+
+    return paginate(this._prisma.post, paginationOptions, select, where);
   }
 
   async create(text: string, userId: number): Promise<GetPostDto> {

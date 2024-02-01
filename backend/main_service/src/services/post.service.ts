@@ -1,3 +1,4 @@
+import { PaginateOptions } from "../dto/pagination/pagination-options";
 import { CreatePostRequest } from "../dto/post.dto";
 import { IPostRepository } from "../interface/postRepository.interface";
 import { IUserRepository } from "../interface/userRepository.interface";
@@ -37,7 +38,11 @@ export class PostService {
     return createPostResult;
   }
 
-  async getPostFeed(userId: number, loggedUserId: number) {
+  async getPostFeed(
+    userId: number,
+    loggedUserId: number,
+    paginationOptions: PaginateOptions
+  ) {
     var user = await this._userRepository.findById(userId);
 
     if (!user) {
@@ -55,7 +60,7 @@ export class PostService {
       );
     }
 
-    var posts = await this._postRepository.getFeed(userId);
+    var posts = await this._postRepository.getFeed(userId, paginationOptions);
 
     return posts;
   }

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import authHelper from "../auth/auth-helper";
-import { Card, Divider, Typography } from "@mui/material";
+import { Card, Divider, Pagination, Typography } from "@mui/material";
 import NewPost from "./NewPost";
 import { useParams } from "react-router";
 import PostList from "./PostList";
@@ -9,7 +9,7 @@ import { listNewsFeed } from "./api-post";
 const NewsFeed = () => {
   const { userId } = useParams();
   const [posts, setPosts] = useState([]);
-
+  const [meta, setMeta] = useState(null);
   const jwt = authHelper.isAuthenticated();
 
   const addPost = (post) => {
@@ -19,20 +19,15 @@ const NewsFeed = () => {
   };
 
   useEffect(() => {
-    const aborController = new AbortController();
-    const signal = aborController.signal;
-
-    listNewsFeed(userId, jwt.token, signal).then((result) => {
+    listNewsFeed(userId, jwt.token, 1, 3).then((result) => {
       if (result.error) {
         console.log(result.error);
       } else {
-        setPosts(result.data);
+        setPosts(result.data.data);
+        setMeta(result.data.meta);
       }
     });
 
-    return function cleanup() {
-      aborController.abort();
-    };
   }, [userId, jwt.token]);
 
   const removePost = (postId) => {
@@ -73,6 +68,17 @@ const NewsFeed = () => {
     });
   };
 
+  const handlePageChange = (event, page) => {
+    listNewsFeed(userId, jwt.token, page, 3).then((result) => {
+      if (result.error) {
+        console.log(result.error);
+      } else {
+        setPosts(result.data.data);
+        setMeta(result.data.meta);
+      }
+    });
+  };
+  
   return (
     <Card>
       <Typography type="title">NewsFeed</Typography>
@@ -89,6 +95,16 @@ const NewsFeed = () => {
         increaseCommentCount={increaseCommentCount}
         decreaseCommentCount={decreaseCommentCount}
       />
+      {meta && (
+        <Pagination
+          color="secondary"
+          variant="outlined"
+          count={meta.totalPages}
+          page={meta.currentPage}
+          onChange={handlePageChange}
+          disabled={meta.totalPages <= 1}
+        />
+      )}
     </Card>
   );
 };

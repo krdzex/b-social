@@ -18,11 +18,10 @@ const create = async (jwtToken, post) => {
   }
 };
 
-const listNewsFeed = async (userId, jwtToken, signal) => {
+const listNewsFeed = async (userId, jwtToken, page, take) => {
   try {
-    let response = await fetch(`${baseUrl}/posts/feed/` + userId, {
+    let response = await fetch(`${baseUrl}/posts/feed/${userId}?page=${page}&take=${take}`, {
       method: "GET",
-      signal: signal,
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
