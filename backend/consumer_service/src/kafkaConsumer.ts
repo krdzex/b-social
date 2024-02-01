@@ -11,7 +11,7 @@ const consumer = kafka.consumer({
   groupId: "consumer-service",
 });
 
-async function messageHandler(topic: string, data: any) {
+function messageHandler(topic: string, data: any) {
   console.log(topic);
   console.log(data);
 }
@@ -35,7 +35,8 @@ export async function connectConsumer() {
 
       const data = JSON.parse(message.value.toString());
 
-      await messageHandler(topic, data);
+      messageHandler(topic, data);
+      Promise.resolve();
     },
   });
 }
