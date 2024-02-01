@@ -1,0 +1,107 @@
+{
+    "queries": [
+      {
+        "name": "Latest post for everyu ser",
+        "query": {
+          "size": 0,
+          "aggs": {
+            "users": {
+              "terms": {
+                "field": "userId",
+                "size": 10
+              },
+              "aggs": {
+                "latest_post": {
+                  "top_hits": {
+                    "size": 1,
+                    "sort": [
+                      {
+                        "createdAt": {
+                          "order": "desc"
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      {
+        "name": "Count of users signed up for every day in last 10 days",
+        "query": {
+            "size": 0,
+            "query": {
+                "range": {
+                    "createdAt": {
+                        "gte": "now-10d/d",
+                        "lte": "now/d"
+                    }
+                }
+            },
+            "aggs": {
+                "usersCreatedPerDay": {
+                    "date_histogram": {
+                        "field": "createdAt",
+                        "calendar_interval": "day",
+                        "format": "yyyy-MM-dd",
+                        "min_doc_count": 0,
+                        "extended_bounds": {
+                            "min": "now-10d/d",
+                            "max": "now/d"
+                        }
+                    }
+                }
+            }
+        }
+      },
+      {
+        "name": "Latest Comment for Each Post",
+        "query": {
+            "size": 0,
+            "query": {
+                "range": {
+                    "timestamp": {
+                        "gte": "now-10d/d",
+                        "lte": "now/d"
+                    }
+                }
+            },
+            "aggs": {
+                "postsPerDay": {
+                    "date_histogram": {
+                        "field": "timestamp",
+                        "calendar_interval": "day",
+                        "format": "yyyy-MM-dd",
+                        "min_doc_count": 0,
+                        "extended_bounds": {
+                            "min": "now-10d/d",
+                            "max": "now/d"
+                        }
+                    },
+                    "aggs": {
+                        "top_posts": {
+                            "terms": {
+                                "field": "postId",
+                                "size": 10,
+                                "order": {
+                                    "comment_count": "desc"
+                                }
+                            },
+                            "aggs": {
+                                "comment_count": {
+                                    "value_count": {
+                                        "field": "commentId"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+      }
+    ]
+  }
+  

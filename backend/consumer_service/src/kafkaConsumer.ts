@@ -1,6 +1,8 @@
+import { Client } from "@elastic/elasticsearch";
 import { EachMessagePayload, Kafka } from "kafkajs";
 
 const topics = ["comment-created", "user-created", "post-created"];
+const elasticClient = new Client({ node: "http://elasticsearch:9200" });
 
 const kafka = new Kafka({
   brokers: ["kafka:9093"],
@@ -11,9 +13,15 @@ const consumer = kafka.consumer({
   groupId: "consumer-service",
 });
 
-function messageHandler(topic: string, data: any) {
-  console.log(topic);
-  console.log(data);
+async function messageHandler(topic: string, data: any) {
+  try {
+    await elasticClient.index({
+      index: topic,
+      body: data,
+    });
+  } catch (error) {
+    console.error("Error:", error);
+  }
 }
 
 export async function connectConsumer() {
@@ -35,8 +43,7 @@ export async function connectConsumer() {
 
       const data = JSON.parse(message.value.toString());
 
-      messageHandler(topic, data);
-      Promise.resolve();
+      await messageHandler(topic, data);
     },
   });
 }

@@ -46,6 +46,7 @@ services:
     depends_on:
       - kafka
       - main_service
+      - elasticsearch
     container_name: consumer_service
     restart: always
     ports:
@@ -108,17 +109,27 @@ services:
       - kafka_data:/var/lib/kafka/data
 
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch-oss:7.10.2
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.13
     container_name: elasticsearch
     environment:
       - discovery.type=single-node
     ports:
       - "9200:9200"
       - "9300:9300"
+    volumes:
+      - "elasticsearch_data:/usr/share/elasticsearch/data"
+    healthcheck:
+      test: ["CMD-SHELL", "curl http://localhost:9200"]
+      interval: 10s
+      timeout: 10s
+      retries: 120
 
   kibana:
-    image: docker.elastic.co/kibana/kibana-oss:7.10.2
+    image: docker.elastic.co/kibana/kibana:7.17.13
     container_name: kibana
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
     ports:
       - "5601:5601"
     environment:
@@ -128,3 +139,4 @@ volumes:
   local_pgdata:
   kafka_data:
   zookeeper_data:
+  elasticsearch_data:
