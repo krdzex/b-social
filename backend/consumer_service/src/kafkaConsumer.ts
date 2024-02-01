@@ -2,10 +2,10 @@ import { Client } from "@elastic/elasticsearch";
 import { EachMessagePayload, Kafka } from "kafkajs";
 
 const topics = ["comment-created", "user-created", "post-created"];
-const elasticClient = new Client({ node: "http://elasticsearch:9200" });
+const elasticClient = new Client({ node: process.env.ELASTIC_URL });
 
 const kafka = new Kafka({
-  brokers: ["kafka:9093"],
+  brokers: [`${process.env.KAFKA_URL}`],
   clientId: "consumer-service",
 });
 
