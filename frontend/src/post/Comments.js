@@ -13,12 +13,17 @@ const classes = {
 
 const Comments = (props) => {
   const [text, setText] = useState("");
+  const [error, setError] = useState(null);
   const jwt = authHelper.isAuthenticated();
 
   const addComment = (event) => {
     if (event.keyCode === 13 && event.target.value) {
       event.preventDefault();
 
+      if (text.length === 0) {
+        setError("Text is required");
+        return;
+      }
       var commentToAdd = {
         text: text,
       };
@@ -88,6 +93,8 @@ const Comments = (props) => {
             placeholder="Write something..."
             sx={classes.commentField}
             margin="normal"
+            error={error !== null}
+            helperText={error !== null ? error : ""}
           />
         }
         className={classes.cardHeader}

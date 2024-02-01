@@ -7,7 +7,6 @@ import {
   Card,
   CardActions,
   CardContent,
-  Icon,
   TextField,
   Typography,
 } from "@mui/material";
@@ -49,15 +48,31 @@ export default function Signin(props) {
     error: "",
   });
 
+  const [emailError, setEmailError] = useState(null);
+  const [passwordError, setPasswordError] = useState(null);
+
   const clickSubmit = () => {
+    if (values.email.length === 0 || values.password.length === 0) {
+      if (values.email.length === 0) {
+        setEmailError("Email is required");
+      }
+
+      if (values.password.length === 0) {
+        setPasswordError("Password is required");
+      }
+      return;
+    }
+
     const user = {
       email: values.email || undefined,
       password: values.password || undefined,
     };
     signin(user).then((data) => {
-      console.log(data);
+      setEmailError(null);
+      setPasswordError(null);
+
       if (data.error) {
-        setValues({ ...values, error: data.error });
+        setValues({ ...values, error: data.msg });
       } else {
         auth.authenticate(data.data, () => {
           setValues({ ...values });
@@ -85,6 +100,8 @@ export default function Signin(props) {
             value={values.email}
             onChange={handleChange("email")}
             margin="normal"
+            error={emailError !== null}
+            helperText={emailError !== null ? emailError : ""}
           />
           <br />
           <TextField
@@ -95,13 +112,12 @@ export default function Signin(props) {
             value={values.password}
             onChange={handleChange("password")}
             margin="normal"
+            error={passwordError !== null}
+            helperText={passwordError !== null ? passwordError : ""}
           />
           <br />
           {values.error && (
             <Typography component="p" color="error">
-              <Icon color="error" sx={classes.error}>
-                error
-              </Icon>
               {values.error}
             </Typography>
           )}

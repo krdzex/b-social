@@ -61,20 +61,71 @@ export default function Signup() {
     setValues({ ...values, [name]: event.target.value });
   };
 
-  const clickSubmit = () => {
-    const user = {
-      firstName: values.firstName || undefined,
-      lastName: values.lastName || undefined,
-      username: values.username || undefined,
-      email: values.email || undefined,
-      password: values.password || undefined,
-      confirmPassword: values.confirmPassword || undefined,
-    };
+  const [errors, setErrors] = useState({});
 
-    create(user).then((data) => {
-      if (data.error) setValues({ ...values, error: data.error });
-      else setValues({ ...values, error: "", open: true });
-    });
+  const validateForm = () => {
+    let isValid = true;
+    const newErrors = {};
+
+    // Validate firstName
+    if (values.firstName.trim() === "") {
+      newErrors.firstName = "First Name is required";
+      isValid = false;
+    }
+
+    // Validate lastName
+    if (values.lastName.trim() === "") {
+      newErrors.lastName = "Last Name is required";
+      isValid = false;
+    }
+
+    // Validate username
+    if (values.username.trim() === "") {
+      newErrors.username = "Username is required";
+      isValid = false;
+    }
+
+    // Validate email
+    if (values.email.trim() === "") {
+      newErrors.email = "Email is required";
+      isValid = false;
+    }
+
+    // Validate password
+    if (values.password.trim() === "") {
+      newErrors.password = "Password is required";
+      isValid = false;
+    }
+
+    // Validate confirmPassword
+    if (
+      values.confirmPassword.trim() === "" ||
+      values.confirmPassword !== values.password
+    ) {
+      newErrors.confirmPassword = "Passwords must match";
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
+  };
+
+  const clickSubmit = () => {
+    if (validateForm()) {
+      const user = {
+        firstName: values.firstName || undefined,
+        lastName: values.lastName || undefined,
+        username: values.username || undefined,
+        email: values.email || undefined,
+        password: values.password || undefined,
+        confirmPassword: values.confirmPassword || undefined,
+      };
+
+      create(user).then((data) => {
+        if (data.error) setValues({ ...values, error: data.error });
+        else setValues({ ...values, error: "", open: true });
+      });
+    }
   };
 
   return (
@@ -91,6 +142,8 @@ export default function Signup() {
             value={values.firstName}
             onChange={handleChange("firstName")}
             margin="normal"
+            error={!!errors.firstName}
+            helperText={errors.firstName}
           />
           <br />
           <TextField
@@ -100,6 +153,8 @@ export default function Signup() {
             value={values.lastName}
             onChange={handleChange("lastName")}
             margin="normal"
+            error={!!errors.lastName}
+            helperText={errors.lastName}
           />
           <br />
           <TextField
@@ -109,6 +164,8 @@ export default function Signup() {
             value={values.username}
             onChange={handleChange("username")}
             margin="normal"
+            error={!!errors.username}
+            helperText={errors.username}
           />
           <br />
           <TextField
@@ -119,6 +176,8 @@ export default function Signup() {
             value={values.email}
             onChange={handleChange("email")}
             margin="normal"
+            error={!!errors.email}
+            helperText={errors.email}
           />
           <br />
           <TextField
@@ -129,6 +188,8 @@ export default function Signup() {
             value={values.password}
             onChange={handleChange("password")}
             margin="normal"
+            error={!!errors.password}
+            helperText={errors.password}
           />
           <br />
           <TextField
@@ -139,6 +200,8 @@ export default function Signup() {
             value={values.confirmPassword}
             onChange={handleChange("confirmPassword")}
             margin="normal"
+            error={!!errors.confirmPassword}
+            helperText={errors.confirmPassword}
           />
           <br />
           {values.error && (

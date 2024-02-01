@@ -6,12 +6,18 @@ import { Button, Card, TextField } from "@mui/material";
 const NewPost = (props) => {
   const jwt = authHelper.isAuthenticated();
   const [text, setText] = useState("");
+  const [error, setError] = useState(null);
 
   const clickPost = () => {
+    if (text.length === 0) {
+      setError("Text is required");
+      return;
+    }
+
     const post = {
       text: text || undefined,
     };
-    create(jwt.token , post).then((result) => {
+    create(jwt.token, post).then((result) => {
       if (result.error) {
         //   setValues({ ...values, error: data.error });
       } else {
@@ -35,8 +41,8 @@ const NewPost = (props) => {
         margin="normal"
         value={text}
         onChange={handleChange}
-        // error={values.error !== undefined}
-        // helperText={values.error ? "Text is required" : ""}
+        error={error !== null}
+        helperText={error ? error : ""}
       />
       <div
         style={{
