@@ -12,10 +12,10 @@ RUN npm run build
 
 RUN npx prisma generate
 
-COPY migrationentrypoint.sh /migrationentrypoint.sh
-RUN chmod +x /migrationentrypoint.sh
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
 
 EXPOSE 8000
 
-ENTRYPOINT ["/migrationentrypoint.sh"]
+ENTRYPOINT ["/entrypoint.sh"]
